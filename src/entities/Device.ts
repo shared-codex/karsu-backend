@@ -5,17 +5,17 @@ import { SensorReading } from "./SensorReading";
 @Entity({ name: "devices" })
 export class Device {
   @PrimaryColumn({ type: "varchar", length: 50 })
-  device_id: string;
+  device_id!: string;
 
   @Column({ type: "varchar", length: 50, nullable: true })
-  model: string;
+  model!: string;
 
   @Column({ type: "varchar", length: 20, default: "Available" })
-  status: string; // 'Active','Available','Lost','Retired'
+  status!: string; // 'Active','Available','Lost','Retired'
 
   @OneToMany(() => WorkerDeviceAssignment, assignment => assignment.device)
-  assignments: WorkerDeviceAssignment[];
+  assignments!: WorkerDeviceAssignment[];
 
   @OneToMany(() => SensorReading, reading => reading.device)
-  sensorReadings: SensorReading[];
+  sensorReadings!: SensorReading[];
 }

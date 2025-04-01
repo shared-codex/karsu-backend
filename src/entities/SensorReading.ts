@@ -4,27 +4,27 @@ import { Device } from "./Device";
 @Entity({ name: "sensor_readings" })
 export class SensorReading {
   @PrimaryColumn({ type: "varchar", length: 50 })
-  device_id: string;
+  device_id!: string;
 
   @PrimaryColumn({ type: "timestamptz" })
-  timestamp: Date;
+  timestamp!: Date;
 
   @Column({ type: "int" })
-  heart_rate: number;
+  heart_rate!: number;
 
   @Column({ type: "decimal", precision: 5, scale: 2 })
-  gas_level: number;
+  gas_level!: number;
 
   @Column({ type: "int" })
-  step_count: number;
+  step_count!: number;
 
   @Column({ type: "int" })
-  stationary_time: number;
+  stationary_time!: number;
 
   @Column({ type: "smallint" })
-  battery_level: number;
+  battery_level!: number;
 
   @ManyToOne(() => Device, device => device.sensorReadings)
   @JoinColumn({ name: "device_id" })
-  device: Device;
+  device!: Device;
 }

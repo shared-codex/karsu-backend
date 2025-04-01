@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express";
  * @param permission - The permission string (e.g., "CREATE_WORKER")
  */
 export function checkPermission(permission: string) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request & {user: any}, res: Response, next: NextFunction) => { // TODO: define user type properly
     // Assuming authentication middleware has set req.user
     const user = req.user;
     if (!user) {
