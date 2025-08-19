@@ -31,7 +31,7 @@ export class Alert {
   threshold_value!: number;
 
   @Column({ type: "timestamptz", nullable: true })
-  resolved_timestamp!: Date;
+  resolved_timestamp?: Date | null;
 
   @Column({ type: "boolean", default: true })
   is_active!: boolean;

@@ -20,16 +20,16 @@ export class Worker {
   phone!: string;
 
   @Column({ type: "varchar", length: 100, nullable: true })
-  email!: string;
+  email?: string | null;
 
   @Column({ type: "varchar", length: 100, nullable: true })
-  emergency_contact_name!: string;
+  emergency_contact_name?: string | null;
 
   @Column({ type: "varchar", length: 15, nullable: true })
-  emergency_contact_phone!: string;
+  emergency_contact_phone?: string | null;
 
   @Column({ type: "varchar", nullable: true })
-  emergency_contact_relation!: string; // Consider using an enum constraint
+  emergency_contact_relation?: string | null; // Consider using an enum constraint
 
   @OneToMany(() => WorkerDeviceAssignment, assignment => assignment.worker)
   assignments!: WorkerDeviceAssignment[];

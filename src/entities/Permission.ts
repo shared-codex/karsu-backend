@@ -10,7 +10,7 @@ export class Permission {
   name!: string; // e.g. "READ_WORKERS", "CREATE_WORKER"
 
   @Column({ type: "text", nullable: true })
-  description!: string;
+  description?: string | null;
 
   @ManyToMany(() => Role, role => role.permissions)
   roles!: Role[];
