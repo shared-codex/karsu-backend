@@ -8,6 +8,7 @@ import { WorkerHealthCondition } from "./entities/WorkerHealthCondition";
 import { WorkerHealthIncident } from "./entities/WorkerHealthIncident";
 import { Role } from "./entities/Role";
 import { Alert } from "./entities/Alert";
+import { Permission } from "./entities/Permission";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -27,6 +28,7 @@ export const AppDataSource = new DataSource({
     WorkerHealthCondition,
     WorkerHealthIncident,
     Role,
-    Alert
+    Alert,
+    Permission
   ]
 });
