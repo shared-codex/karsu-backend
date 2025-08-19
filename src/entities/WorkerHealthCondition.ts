@@ -25,7 +25,7 @@ export class WorkerHealthCondition {
   condition_name!: string;
 
   @Column({ type: "text", nullable: true })
-  description!: string;
+  description?: string | null;
 
   @Column({
     type: "enum",
@@ -43,7 +43,7 @@ export class WorkerHealthCondition {
   status!: ConditionStatus;
 
   @Column({ type: "text", nullable: true })
-  notes!: string;
+  notes?: string | null;
 
   @ManyToOne(() => Worker, worker => worker.healthConditions)
   @JoinColumn({ name: "worker_id" })

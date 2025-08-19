@@ -10,16 +10,16 @@ export class Role {
   role_name!: string;
 
   @Column({ type: "text", nullable: true })
-  description!: string;
+  description?: string | null;
 
   @Column({ type: "int", nullable: true })
-  max_pulse!: number;
+  max_pulse?: number | null;
 
   @Column({ type: "decimal", precision: 5, scale: 2, nullable: true })
-  max_gas_exposure!: number;
+  max_gas_exposure?: number | null;
 
   @Column({ type: "int", nullable: true })
-  max_inactivity!: number;
+  max_inactivity?: number | null;
 
   @ManyToMany(() => Permission, permission => permission.roles, { cascade: true })
   @JoinTable({

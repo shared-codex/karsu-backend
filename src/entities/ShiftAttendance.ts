@@ -16,7 +16,7 @@ export class ShiftAttendance {
   clock_in_time!: string;
 
   @Column({ type: "time", nullable: true })
-  clock_out_time!: string | null;
+  clock_out_time?: string | null;
 
   @ManyToOne(() => Worker, worker => worker.shifts)
   @JoinColumn({ name: "worker_id" })

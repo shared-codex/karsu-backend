@@ -8,7 +8,7 @@ export class Device {
   device_id!: string;
 
   @Column({ type: "varchar", length: 50, nullable: true })
-  model!: string;
+  model?: string | null;
 
   @Column({ type: "varchar", length: 20, default: "Available" })
   status!: string; // 'Active','Available','Lost','Retired'

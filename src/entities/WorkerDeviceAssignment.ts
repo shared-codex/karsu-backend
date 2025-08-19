@@ -17,7 +17,7 @@ export class WorkerDeviceAssignment {
   assigned_date!: Date;
 
   @Column({ type: "date", nullable: true })
-  unassigned_date!: Date | null;
+  unassigned_date?: Date | null;
 
   @ManyToOne(() => Worker, worker => worker.assignments)
   @JoinColumn({ name: "worker_id" })

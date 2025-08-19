@@ -29,10 +29,10 @@ export class WorkerHealthIncident {
   resolution_date!: Date;
 
   @Column({ type: "int", nullable: true })
-  duration!: number | null;
+  duration?: number | null;
 
   @Column({ type: "text", nullable: true })
-  notes!: string;
+  notes?: string | null;
 
   @ManyToOne(() => Worker, worker => worker.healthIncidents)
   @JoinColumn({ name: "worker_id" })
