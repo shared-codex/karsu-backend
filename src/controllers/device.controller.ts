@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database";
-import { Device } from "../entities/Device";
+import { Device, DeviceStatus } from "../entities/Device";
 
 const deviceRepository = AppDataSource.getRepository(Device);
 
@@ -25,7 +25,12 @@ export const getDeviceById = async (req: Request, res: Response) => {
 
 export const createDevice = async (req: Request, res: Response) => {
   try {
-    const newDevice = deviceRepository.create(req.body);
+    const { status, ...data } = req.body;
+    if (status && !Object.values(DeviceStatus).includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    const deviceStatus = status as DeviceStatus | undefined;
+    const newDevice = deviceRepository.create({ ...data, status: deviceStatus });
     const result = await deviceRepository.save(newDevice);
     res.status(201).json(result);
   } catch (error) {
@@ -37,7 +42,12 @@ export const updateDevice = async (req: Request, res: Response) => {
   try {
     const device = await deviceRepository.findOneBy({ device_id: req.params.id });
     if (!device) return res.status(404).json({ error: "Device not found" });
-    deviceRepository.merge(device, req.body);
+    const { status, ...data } = req.body;
+    if (status && !Object.values(DeviceStatus).includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    const deviceStatus = status as DeviceStatus | undefined;
+    deviceRepository.merge(device, { ...data, status: deviceStatus });
     const result = await deviceRepository.save(device);
     res.json(result);
   } catch (error) {
