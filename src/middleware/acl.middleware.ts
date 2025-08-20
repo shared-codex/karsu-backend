@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express";
  * @param permission - The permission string (e.g., "CREATE_WORKER")
  */
 export function checkPermission(permission: string) {
-  return (req: Request & {user: any}, res: Response, next: NextFunction) => { // TODO: define user type properly
+  return (req: Request, res: Response, next: NextFunction) => {
     // Assuming authentication middleware has set req.user
     const user = req.user;
     if (!user) {
@@ -18,7 +18,7 @@ export function checkPermission(permission: string) {
       return res.status(403).json({ error: "Forbidden: No role or permissions assigned" });
     }
 
-    const hasPermission = role.permissions.some((p: { name: string }) => p.name === permission);
+    const hasPermission = role.permissions.some((p) => p.name === permission);
     if (!hasPermission) {
       return res.status(403).json({ error: "Forbidden: Insufficient permissions" });
     }
