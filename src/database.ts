@@ -12,11 +12,11 @@ import { Permission } from "./entities/Permission";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "your_db_username",
-  password: "your_db_password",
-  database: "your_db_name",
+  host: process.env.DB_HOST || "localhost",
+  port: parseInt(process.env.DB_PORT || "5432"),
+  username: process.env.DB_USERNAME || "your_db_username",
+  password: process.env.DB_PASSWORD || "your_db_password",
+  database: process.env.DB_DATABASE || "your_db_name",
   synchronize: true, // for development; use migrations in production
   logging: false,
   entities: [
