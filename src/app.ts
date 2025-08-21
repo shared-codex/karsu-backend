@@ -9,10 +9,13 @@ import healthConditionRoutes from "./routes/healthCondition.routes";
 import healthIncidentRoutes from "./routes/healthIncident.routes";
 import roleRoutes from "./routes/role.routes";
 import alertRoutes from "./routes/alert.routes";
+import { swaggerServe, swaggerSetup } from "./swagger";
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerServe, swaggerSetup);
 
 app.use("/api/workers", workerRoutes);
 app.use("/api/devices", deviceRoutes);
