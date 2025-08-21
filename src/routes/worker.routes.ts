@@ -1,11 +1,129 @@
 import { Router } from "express";
-import { getWorkers, getWorkerById, createWorker, updateWorker, deleteWorker } from "../controllers/worker.controller";
+import {
+  getWorkers,
+  getWorkerById,
+  createWorker,
+  updateWorker,
+  deleteWorker,
+} from "../controllers/worker.controller";
 
 const router = Router();
 
+/**
+ * @openapi
+ * /api/workers:
+ *   get:
+ *     tags:
+ *       - Workers
+ *     summary: Get all workers
+ *     responses:
+ *       200:
+ *         description: List of workers
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Worker'
+ *       404:
+ *         description: Workers not found
+ *       500:
+ *         description: Internal server error
+ *   post:
+ *     tags:
+ *       - Workers
+ *     summary: Create a worker
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Worker'
+ *     responses:
+ *       201:
+ *         description: Worker created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Worker'
+ *       404:
+ *         description: Worker not found
+ *       500:
+ *         description: Internal server error
+ */
 router.get("/", getWorkers);
-router.get("/:id", getWorkerById);
 router.post("/", createWorker);
+
+/**
+ * @openapi
+ * /api/workers/{id}:
+ *   get:
+ *     tags:
+ *       - Workers
+ *     summary: Get worker by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Worker retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Worker'
+ *       404:
+ *         description: Worker not found
+ *       500:
+ *         description: Internal server error
+ *   put:
+ *     tags:
+ *       - Workers
+ *     summary: Update a worker
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Worker'
+ *     responses:
+ *       200:
+ *         description: Worker updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Worker'
+ *       404:
+ *         description: Worker not found
+ *       500:
+ *         description: Internal server error
+ *   delete:
+ *     tags:
+ *       - Workers
+ *     summary: Delete a worker
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Worker deleted
+ *       404:
+ *         description: Worker not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/:id", getWorkerById);
 router.put("/:id", updateWorker);
 router.delete("/:id", deleteWorker);
 
