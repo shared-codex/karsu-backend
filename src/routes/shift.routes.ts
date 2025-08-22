@@ -19,10 +19,21 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/ShiftAttendance'
+ *             examples:
+ *               ShiftAttendances:
+ *                 $ref: '../swagger/examples/ShiftAttendances.json'
  *       404:
  *         description: Shift attendance not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Shift attendance not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Shift Attendance
@@ -50,11 +61,9 @@ const router = Router();
  *               - worker_id
  *               - shift_date
  *               - clock_in_time
- *           example:
- *             worker_id: 1
- *             shift_date: "2023-01-01"
- *             clock_in_time: "08:00:00"
- *             clock_out_time: "17:00:00"
+ *           examples:
+ *             ShiftAttendance:
+ *               $ref: '../swagger/examples/ShiftAttendance.json'
  *     responses:
  *       201:
  *         description: Shift attendance created
@@ -62,10 +71,21 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ShiftAttendance'
+ *             examples:
+ *               ShiftAttendance:
+ *                 $ref: '../swagger/examples/ShiftAttendance.json'
  *       404:
  *         description: Shift attendance not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Shift attendance not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getShifts);
 router.post("/", createShift);
@@ -90,10 +110,21 @@ router.post("/", createShift);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ShiftAttendance'
+ *             examples:
+ *               ShiftAttendance:
+ *                 $ref: '../swagger/examples/ShiftAttendance.json'
  *       404:
  *         description: Shift attendance not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Shift attendance not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Shift Attendance
@@ -127,11 +158,9 @@ router.post("/", createShift);
  *               - worker_id
  *               - shift_date
  *               - clock_in_time
- *           example:
- *             worker_id: 1
- *             shift_date: "2023-01-01"
- *             clock_in_time: "08:00:00"
- *             clock_out_time: "17:00:00"
+ *           examples:
+ *             ShiftAttendance:
+ *               $ref: '../swagger/examples/ShiftAttendance.json'
  *     responses:
  *       200:
  *         description: Shift attendance updated
@@ -139,10 +168,21 @@ router.post("/", createShift);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ShiftAttendance'
+ *             examples:
+ *               ShiftAttendance:
+ *                 $ref: '../swagger/examples/ShiftAttendance.json'
  *       404:
  *         description: Shift attendance not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Shift attendance not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Shift Attendance
@@ -158,8 +198,16 @@ router.post("/", createShift);
  *         description: Shift attendance deleted
  *       404:
  *         description: Shift attendance not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Shift attendance not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getShiftById);
 router.put("/:id", updateShift);

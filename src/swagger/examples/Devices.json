@@ -1,0 +1,12 @@
+[
+  {
+    "device_id": "dev-1",
+    "model": "Model A",
+    "status": "Active"
+  },
+  {
+    "device_id": "dev-2",
+    "model": "Model B",
+    "status": "Available"
+  }
+]

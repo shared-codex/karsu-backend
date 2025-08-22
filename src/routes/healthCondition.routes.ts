@@ -25,10 +25,21 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/WorkerHealthCondition'
+ *             examples:
+ *               HealthConditions:
+ *                 $ref: '../swagger/examples/HealthConditions.json'
  *       404:
  *         description: Health conditions not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health conditions not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Health Conditions
@@ -39,6 +50,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/WorkerHealthCondition'
+ *           examples:
+ *             HealthCondition:
+ *               $ref: '../swagger/examples/HealthCondition.json'
  *     responses:
  *       201:
  *         description: Health condition created
@@ -46,8 +60,15 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthCondition'
+ *             examples:
+ *               HealthCondition:
+ *                 $ref: '../swagger/examples/HealthCondition.json'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getHealthConditions);
 router.post("/", createHealthCondition);
@@ -72,10 +93,21 @@ router.post("/", createHealthCondition);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthCondition'
+ *             examples:
+ *               HealthCondition:
+ *                 $ref: '../swagger/examples/HealthCondition.json'
  *       404:
  *         description: Health condition not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health condition not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Health Conditions
@@ -92,6 +124,9 @@ router.post("/", createHealthCondition);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/WorkerHealthCondition'
+ *           examples:
+ *             HealthCondition:
+ *               $ref: '../swagger/examples/HealthCondition.json'
  *     responses:
  *       200:
  *         description: Health condition updated
@@ -99,10 +134,21 @@ router.post("/", createHealthCondition);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthCondition'
+ *             examples:
+ *               HealthCondition:
+ *                 $ref: '../swagger/examples/HealthCondition.json'
  *       404:
  *         description: Health condition not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health condition not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Health Conditions
@@ -118,8 +164,16 @@ router.post("/", createHealthCondition);
  *         description: Health condition deleted
  *       404:
  *         description: Health condition not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health condition not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getHealthConditionById);
 router.put("/:id", updateHealthCondition);

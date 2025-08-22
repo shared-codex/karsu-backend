@@ -1,0 +1,22 @@
+[
+  {
+    "worker_id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "phone": "1234567890",
+    "email": "john@example.com",
+    "emergency_contact_name": "Jane Doe",
+    "emergency_contact_phone": "0987654321",
+    "emergency_contact_relation": "Spouse"
+  },
+  {
+    "worker_id": 2,
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "phone": "5551234567",
+    "email": "alice@example.com",
+    "emergency_contact_name": "Bob Smith",
+    "emergency_contact_phone": "5557654321",
+    "emergency_contact_relation": "Brother"
+  }
+]

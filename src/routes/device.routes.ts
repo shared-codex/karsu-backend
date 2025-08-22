@@ -21,23 +21,19 @@ const router = Router();
  *                 $ref: '#/components/schemas/Device'
  *             examples:
  *               Devices:
- *                 value:
- *                   - device_id: "dev-1"
- *                     model: "Model A"
- *                     status: Active
- *                   - device_id: "dev-2"
- *                     model: "Model B"
- *                     status: Available
- *                   - device_id: "dev-3"
- *                     model: "Model C"
- *                     status: Lost
- *                   - device_id: "dev-4"
- *                     model: "Model D"
- *                     status: Retired
+ *                 $ref: '../swagger/examples/Devices.json'
  *       404:
  *         description: Devices not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Devices not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Devices
@@ -60,10 +56,9 @@ const router = Router();
  *             required:
  *               - device_id
  *               - status
- *           example:
- *             device_id: "dev-5"
- *             model: "Model E"
- *             status: Available
+ *           examples:
+ *             Device:
+ *               $ref: '../swagger/examples/Device.json'
  *     responses:
  *       201:
  *         description: Device created
@@ -71,14 +66,17 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Device'
- *             example:
- *               device_id: "dev-5"
- *               model: "Model E"
- *               status: Available
+ *             examples:
+ *               Device:
+ *                 $ref: '../swagger/examples/Device.json'
  *       400:
  *         description: Invalid input
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getDevices);
 router.post("/", createDevice);
@@ -103,14 +101,21 @@ router.post("/", createDevice);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Device'
- *             example:
- *               device_id: "dev-1"
- *               model: "Model A"
- *               status: Active
+ *             examples:
+ *               Device:
+ *                 $ref: '../swagger/examples/Device.json'
  *       404:
  *         description: Device not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Device not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Devices
@@ -139,10 +144,9 @@ router.post("/", createDevice);
  *             required:
  *               - device_id
  *               - status
- *           example:
- *             device_id: "dev-1"
- *             model: "Model Z"
- *             status: Lost
+ *           examples:
+ *             Device:
+ *               $ref: '../swagger/examples/Device.json'
  *     responses:
  *       200:
  *         description: Device updated
@@ -150,14 +154,21 @@ router.post("/", createDevice);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Device'
- *             example:
- *               device_id: "dev-1"
- *               model: "Model Z"
- *               status: Lost
+ *             examples:
+ *               Device:
+ *                 $ref: '../swagger/examples/Device.json'
  *       404:
  *         description: Device not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Device not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Devices
@@ -173,8 +184,16 @@ router.post("/", createDevice);
  *         description: Device deleted
  *       404:
  *         description: Device not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Device not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getDeviceById);
 router.put("/:id", updateDevice);

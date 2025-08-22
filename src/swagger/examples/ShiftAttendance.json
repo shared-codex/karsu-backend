@@ -1,0 +1,7 @@
+{
+  "attendance_id": 1,
+  "worker_id": 1,
+  "shift_date": "2023-01-01",
+  "clock_in_time": "08:00:00",
+  "clock_out_time": "17:00:00"
+}

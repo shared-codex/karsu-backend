@@ -25,10 +25,21 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/WorkerHealthIncident'
+ *             examples:
+ *               HealthIncidents:
+ *                 $ref: '../swagger/examples/HealthIncidents.json'
  *       404:
  *         description: Health incidents not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health incidents not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Health Incidents
@@ -40,6 +51,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/WorkerHealthIncident'
+ *           examples:
+ *             HealthIncident:
+ *               $ref: '../swagger/examples/HealthIncident.json'
  *     responses:
  *       201:
  *         description: Health incident created
@@ -47,8 +61,15 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthIncident'
+ *             examples:
+ *               HealthIncident:
+ *                 $ref: '../swagger/examples/HealthIncident.json'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getHealthIncidents);
 router.post("/", createHealthIncident);
@@ -73,10 +94,21 @@ router.post("/", createHealthIncident);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthIncident'
+ *             examples:
+ *               HealthIncident:
+ *                 $ref: '../swagger/examples/HealthIncident.json'
  *       404:
  *         description: Health incident not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health incident not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Health Incidents
@@ -94,6 +126,9 @@ router.post("/", createHealthIncident);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/WorkerHealthIncident'
+ *           examples:
+ *             HealthIncident:
+ *               $ref: '../swagger/examples/HealthIncident.json'
  *     responses:
  *       200:
  *         description: Health incident updated
@@ -101,10 +136,21 @@ router.post("/", createHealthIncident);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerHealthIncident'
+ *             examples:
+ *               HealthIncident:
+ *                 $ref: '../swagger/examples/HealthIncident.json'
  *       404:
  *         description: Health incident not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health incident not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Health Incidents
@@ -120,8 +166,16 @@ router.post("/", createHealthIncident);
  *         description: Health incident deleted
  *       404:
  *         description: Health incident not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Health incident not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getHealthIncidentById);
 router.put("/:id", updateHealthIncident);

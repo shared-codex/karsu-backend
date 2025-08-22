@@ -25,10 +25,21 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Worker'
+ *             examples:
+ *               Workers:
+ *                 $ref: '../swagger/examples/Workers.json'
  *       404:
  *         description: Workers not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Workers not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Workers
@@ -39,6 +50,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Worker'
+ *           examples:
+ *             Worker:
+ *               $ref: '../swagger/examples/Worker.json'
  *     responses:
  *       201:
  *         description: Worker created
@@ -46,10 +60,21 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Worker'
+ *             examples:
+ *               Worker:
+ *                 $ref: '../swagger/examples/Worker.json'
  *       404:
  *         description: Worker not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Worker not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getWorkers);
 router.post("/", createWorker);
@@ -74,10 +99,21 @@ router.post("/", createWorker);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Worker'
+ *             examples:
+ *               Worker:
+ *                 $ref: '../swagger/examples/Worker.json'
  *       404:
  *         description: Worker not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Worker not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Workers
@@ -94,6 +130,9 @@ router.post("/", createWorker);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Worker'
+ *           examples:
+ *             Worker:
+ *               $ref: '../swagger/examples/Worker.json'
  *     responses:
  *       200:
  *         description: Worker updated
@@ -101,10 +140,21 @@ router.post("/", createWorker);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Worker'
+ *             examples:
+ *               Worker:
+ *                 $ref: '../swagger/examples/Worker.json'
  *       404:
  *         description: Worker not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Worker not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Workers
@@ -120,8 +170,16 @@ router.post("/", createWorker);
  *         description: Worker deleted
  *       404:
  *         description: Worker not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Worker not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getWorkerById);
 router.put("/:id", updateWorker);
