@@ -8,6 +8,10 @@ export const RoleSchema = {
     max_pulse: { type: "integer", nullable: true },
     max_gas_exposure: { type: "number", nullable: true },
     max_inactivity: { type: "integer", nullable: true },
+    permissions: {
+      type: "array",
+      items: { $ref: "#/components/schemas/Permission" },
+    },
   },
   required: ["role_id", "role_name"],
 };

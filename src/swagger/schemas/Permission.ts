@@ -1,4 +1,5 @@
 
+// OpenAPI schema for Permission entities
 export const PermissionSchema = {
   type: "object",
   properties: {
