@@ -25,11 +25,7 @@ export const getHealthIncidentById = async (req: Request, res: Response) => {
 
 export const createHealthIncident = async (req: Request, res: Response) => {
   try {
-    const incidentData = {
-      ...req.body,
-      resolution_date: req.body.resolution_date ?? null,
-    };
-    const newIncident = healthIncidentRepository.create(incidentData);
+    const newIncident = healthIncidentRepository.create(req.body);
     const result = await healthIncidentRepository.save(newIncident);
     res.status(201).json(result);
   } catch (error) {
