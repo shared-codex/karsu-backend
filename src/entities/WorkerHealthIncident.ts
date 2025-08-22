@@ -26,7 +26,7 @@ export class WorkerHealthIncident {
   incident_date!: Date;
 
   @Column({ type: "date", nullable: true })
-  resolution_date!: Date | null;
+  resolution_date?: Date | null;
 
   @Column({ type: "int", nullable: true })
   duration?: number | null;
