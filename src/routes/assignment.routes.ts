@@ -19,10 +19,21 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/WorkerDeviceAssignment'
+ *             examples:
+ *               Assignments:
+ *                 $ref: '../swagger/examples/Assignments.json'
  *       404:
  *         description: Assignments not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Assignments not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Assignments
@@ -49,10 +60,9 @@ const router = Router();
  *               - worker_id
  *               - device_id
  *               - assigned_date
- *           example:
- *             worker_id: 1
- *             device_id: "dev-1"
- *             assigned_date: "2023-01-01"
+ *           examples:
+ *             Assignment:
+ *               $ref: '../swagger/examples/Assignment.json'
  *     responses:
  *       201:
  *         description: Assignment created
@@ -60,10 +70,21 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerDeviceAssignment'
+ *             examples:
+ *               Assignment:
+ *                 $ref: '../swagger/examples/Assignment.json'
  *       404:
  *         description: Assignment not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Assignment not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getAssignments);
 router.post("/", createAssignment);
@@ -87,10 +108,21 @@ router.post("/", createAssignment);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerDeviceAssignment'
+ *             examples:
+ *               Assignment:
+ *                 $ref: '../swagger/examples/Assignment.json'
  *       404:
  *         description: Assignment not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Assignment not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Assignments
@@ -123,10 +155,9 @@ router.post("/", createAssignment);
  *               - worker_id
  *               - device_id
  *               - assigned_date
- *           example:
- *             worker_id: 1
- *             device_id: "dev-1"
- *             assigned_date: "2023-01-01"
+ *           examples:
+ *             Assignment:
+ *               $ref: '../swagger/examples/Assignment.json'
  *     responses:
  *       200:
  *         description: Assignment updated
@@ -134,10 +165,21 @@ router.post("/", createAssignment);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/WorkerDeviceAssignment'
+ *             examples:
+ *               Assignment:
+ *                 $ref: '../swagger/examples/Assignment.json'
  *       404:
  *         description: Assignment not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Assignment not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Assignments
@@ -153,8 +195,16 @@ router.post("/", createAssignment);
  *         description: Assignment deleted
  *       404:
  *         description: Assignment not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Assignment not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getAssignmentById);
 router.put("/:id", updateAssignment);

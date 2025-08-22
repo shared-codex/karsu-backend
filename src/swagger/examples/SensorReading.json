@@ -1,0 +1,9 @@
+{
+  "device_id": "dev-1",
+  "timestamp": "2023-01-01T00:00:00Z",
+  "heart_rate": 80,
+  "gas_level": 0.02,
+  "step_count": 120,
+  "stationary_time": 5,
+  "battery_level": 95
+}

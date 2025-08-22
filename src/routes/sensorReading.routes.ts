@@ -41,8 +41,15 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/SensorReading'
+ *             examples:
+ *               SensorReadings:
+ *                 $ref: '../swagger/examples/SensorReadings.json'
  *       500:
  *         description: Failed to fetch sensor readings
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Failed to fetch sensor readings
  *   post:
  *     tags:
  *       - Sensor Readings
@@ -57,14 +64,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/SensorReading'
- *           example:
- *             device_id: "dev-1"
- *             timestamp: "2023-01-01T00:00:00Z"
- *             heart_rate: 80
- *             gas_level: 0.02
- *             step_count: 120
- *             stationary_time: 5
- *             battery_level: 95
+ *           examples:
+ *             SensorReading:
+ *               $ref: '../swagger/examples/SensorReading.json'
  *     responses:
  *       201:
  *         description: Sensor reading created
@@ -72,8 +74,15 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/SensorReading'
+ *             examples:
+ *               SensorReading:
+ *                 $ref: '../swagger/examples/SensorReading.json'
  *       500:
  *         description: Failed to create sensor reading
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Failed to create sensor reading
  */
 router.get("/", getSensorReadings);
 router.post("/", createSensorReading);

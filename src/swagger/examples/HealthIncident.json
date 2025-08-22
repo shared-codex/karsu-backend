@@ -1,0 +1,11 @@
+{
+  "incident_id": 1,
+  "worker_id": 1,
+  "incident_name": "Fainting",
+  "description": "Worker fainted",
+  "severity": "Moderate",
+  "incident_date": "2023-01-01",
+  "resolution_date": "2023-01-02",
+  "duration": 1,
+  "notes": "Observed by supervisor"
+}

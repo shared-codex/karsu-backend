@@ -25,8 +25,15 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Role'
+ *             examples:
+ *               Roles:
+ *                 $ref: '../swagger/examples/Roles.json'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   post:
  *     tags:
  *       - Roles
@@ -37,6 +44,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Role'
+ *           examples:
+ *             Role:
+ *               $ref: '../swagger/examples/Role.json'
  *     responses:
  *       201:
  *         description: Role created
@@ -44,8 +54,15 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Role'
+ *             examples:
+ *               Role:
+ *                 $ref: '../swagger/examples/Role.json'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/", getRoles);
 router.post("/", createRole);
@@ -70,10 +87,21 @@ router.post("/", createRole);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Role'
+ *             examples:
+ *               Role:
+ *                 $ref: '../swagger/examples/Role.json'
  *       404:
  *         description: Role not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Role not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   put:
  *     tags:
  *       - Roles
@@ -90,6 +118,9 @@ router.post("/", createRole);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Role'
+ *           examples:
+ *             Role:
+ *               $ref: '../swagger/examples/Role.json'
  *     responses:
  *       200:
  *         description: Role updated
@@ -97,10 +128,21 @@ router.post("/", createRole);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Role'
+ *             examples:
+ *               Role:
+ *                 $ref: '../swagger/examples/Role.json'
  *       404:
  *         description: Role not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Role not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  *   delete:
  *     tags:
  *       - Roles
@@ -116,8 +158,16 @@ router.post("/", createRole);
  *         description: Role deleted
  *       404:
  *         description: Role not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Role not found
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal server error
  */
 router.get("/:id", getRoleById);
 router.put("/:id", updateRole);
