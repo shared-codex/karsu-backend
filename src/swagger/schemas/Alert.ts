@@ -3,6 +3,8 @@ import { AlertType } from "../../entities/Alert";
 export const AlertTypeSchema = {
   type: "string",
   enum: Object.values(AlertType),
+  description:
+    "Type of alert. HIGH_PULSE indicates an elevated pulse rate, GAS_EXPOSURE signals detection of hazardous gases, and INACTIVITY reflects prolonged lack of movement.",
 };
 
 export const AlertSchema = {
@@ -14,7 +16,12 @@ export const AlertSchema = {
     alert_type: { $ref: "#/components/schemas/AlertType" },
     metric_value: { type: "number" },
     threshold_value: { type: "number" },
-    resolved_timestamp: { type: "string", format: "date-time", nullable: true },
+    resolved_timestamp: {
+      type: "string",
+      format: "date-time",
+      nullable: true,
+      description: "Timestamp when the alert was resolved, if applicable.",
+    },
     is_active: { type: "boolean" },
   },
   required: [
