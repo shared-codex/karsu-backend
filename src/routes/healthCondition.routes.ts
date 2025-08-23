@@ -6,6 +6,8 @@ import {
   updateHealthCondition,
   deleteHealthCondition,
 } from "../controllers/healthCondition.controller";
+import { SeverityLevel, ConditionStatus } from "../entities/WorkerHealthCondition";
+import { validateEnum } from "../middleware/enumValidation.middleware";
 
 const router = Router();
 
@@ -71,7 +73,12 @@ const router = Router();
  *               message: Internal server error
  */
 router.get("/", getHealthConditions);
-router.post("/", createHealthCondition);
+router.post(
+  "/",
+  validateEnum("severity", Object.values(SeverityLevel)),
+  validateEnum("status", Object.values(ConditionStatus)),
+  createHealthCondition
+);
 
 /**
  * @openapi
@@ -169,7 +176,12 @@ router.post("/", createHealthCondition);
  *               message: Internal server error
  */
 router.get("/:id", getHealthConditionById);
-router.put("/:id", updateHealthCondition);
+router.put(
+  "/:id",
+  validateEnum("severity", Object.values(SeverityLevel)),
+  validateEnum("status", Object.values(ConditionStatus)),
+  updateHealthCondition
+);
 router.delete("/:id", deleteHealthCondition);
 
 export default router;
