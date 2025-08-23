@@ -15,7 +15,9 @@ export const getHealthIncidents = async (req: Request, res: Response) => {
 
 export const getHealthIncidentById = async (req: Request, res: Response) => {
   try {
-    const incident = await healthIncidentRepository.findOneBy({ incident_id: Number(req.params.id) });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const incident = await healthIncidentRepository.findOneBy({ incident_id: Number(idParam) });
     if (!incident) return res.status(404).json({ error: "Health incident not found" });
     res.json(incident);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createHealthIncident = async (req: Request, res: Response) => {
 
 export const updateHealthIncident = async (req: Request, res: Response) => {
   try {
-    const result = await healthIncidentRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await healthIncidentRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateHealthIncident = async (req: Request, res: Response) => {
 
 export const deleteHealthIncident = async (req: Request, res: Response) => {
   try {
-    const result = await healthIncidentRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await healthIncidentRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
     return res.status(204).send();
   } catch (error) {

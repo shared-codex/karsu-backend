@@ -15,7 +15,9 @@ export const getRoles = async (req: Request, res: Response) => {
 
 export const getRoleById = async (req: Request, res: Response) => {
   try {
-    const role = await roleRepository.findOne({ where: { role_id: Number(req.params.id) }, relations: ["permissions"] });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const role = await roleRepository.findOne({ where: { role_id: Number(idParam) }, relations: ["permissions"] });
     if (!role) return res.status(404).json({ error: "Role not found" });
     res.json(role);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createRole = async (req: Request, res: Response) => {
 
 export const updateRole = async (req: Request, res: Response) => {
   try {
-    const result = await roleRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await roleRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateRole = async (req: Request, res: Response) => {
 
 export const deleteRole = async (req: Request, res: Response) => {
   try {
-    const result = await roleRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await roleRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
     return res.status(204).send();
   } catch (error) {

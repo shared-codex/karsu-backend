@@ -15,7 +15,9 @@ export const getWorkers = async (req: Request, res: Response) => {
 
 export const getWorkerById = async (req: Request, res: Response) => {
   try {
-    const worker = await workerRepository.findOneBy({ worker_id: Number(req.params.id) });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const worker = await workerRepository.findOneBy({ worker_id: Number(idParam) });
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     res.json(worker);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createWorker = async (req: Request, res: Response) => {
 
 export const updateWorker = async (req: Request, res: Response) => {
   try {
-    const result = await workerRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await workerRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateWorker = async (req: Request, res: Response) => {
 
 export const deleteWorker = async (req: Request, res: Response) => {
   try {
-    const result = await workerRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await workerRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
     return res.status(204).send();
   } catch (error) {

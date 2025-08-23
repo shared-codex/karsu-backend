@@ -15,7 +15,9 @@ export const getHealthConditions = async (req: Request, res: Response) => {
 
 export const getHealthConditionById = async (req: Request, res: Response) => {
   try {
-    const condition = await healthConditionRepository.findOneBy({ condition_id: Number(req.params.id) });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const condition = await healthConditionRepository.findOneBy({ condition_id: Number(idParam) });
     if (!condition) return res.status(404).json({ error: "Health condition not found" });
     res.json(condition);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createHealthCondition = async (req: Request, res: Response) => {
 
 export const updateHealthCondition = async (req: Request, res: Response) => {
   try {
-    const result = await healthConditionRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await healthConditionRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Health condition not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateHealthCondition = async (req: Request, res: Response) => {
 
 export const deleteHealthCondition = async (req: Request, res: Response) => {
   try {
-    const result = await healthConditionRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await healthConditionRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Health condition not found" });
     return res.status(204).send();
   } catch (error) {
