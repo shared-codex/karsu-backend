@@ -14,6 +14,8 @@ import WorkerHealthIncidentSchema from "./schemas/WorkerHealthIncident";
 import SensorReadingSchema from "./schemas/SensorReading";
 import AlertExample from "./examples/Alert.json";
 import AlertsExample from "./examples/Alerts.json";
+import AssignmentExample from "./examples/Assignment.json";
+import AssignmentsExample from "./examples/Assignments.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -47,6 +49,8 @@ const swaggerConfig: Options = {
       examples: {
         Alert: AlertExample,
         Alerts: AlertsExample,
+        Assignment: AssignmentExample,
+        Assignments: AssignmentsExample,
       },
     },
   },
