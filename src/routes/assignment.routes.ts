@@ -21,7 +21,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/WorkerDeviceAssignment'
  *             examples:
  *               Assignments:
- *                 $ref: '../swagger/examples/Assignments.json'
+ *                 $ref: '#/components/examples/Assignments'
  *       404:
  *         description: Assignments not found
  *         content:
@@ -62,7 +62,7 @@ const router = Router();
  *               - assigned_date
  *           examples:
  *             Assignment:
- *               $ref: '../swagger/examples/Assignment.json'
+ *               $ref: '#/components/examples/Assignment'
  *     responses:
  *       201:
  *         description: Assignment created
@@ -72,7 +72,7 @@ const router = Router();
  *               $ref: '#/components/schemas/WorkerDeviceAssignment'
  *             examples:
  *               Assignment:
- *                 $ref: '../swagger/examples/Assignment.json'
+ *                 $ref: '#/components/examples/Assignment'
  *       404:
  *         description: Assignment not found
  *         content:
@@ -110,7 +110,7 @@ router.post("/", createAssignment);
  *               $ref: '#/components/schemas/WorkerDeviceAssignment'
  *             examples:
  *               Assignment:
- *                 $ref: '../swagger/examples/Assignment.json'
+ *                 $ref: '#/components/examples/Assignment'
  *       404:
  *         description: Assignment not found
  *         content:
@@ -157,7 +157,7 @@ router.post("/", createAssignment);
  *               - assigned_date
  *           examples:
  *             Assignment:
- *               $ref: '../swagger/examples/Assignment.json'
+ *               $ref: '#/components/examples/Assignment'
  *     responses:
  *       204:
  *         description: Assignment updated
