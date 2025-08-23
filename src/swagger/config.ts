@@ -16,6 +16,8 @@ import AlertExample from "./examples/Alert.json";
 import AlertsExample from "./examples/Alerts.json";
 import AssignmentExample from "./examples/Assignment.json";
 import AssignmentsExample from "./examples/Assignments.json";
+import DeviceExample from "./examples/Device.json";
+import DevicesExample from "./examples/Devices.json";
 import HealthConditionExample from "./examples/HealthCondition.json";
 import HealthConditionsExample from "./examples/HealthConditions.json";
 import WorkerExample from "./examples/Worker.json";
@@ -57,6 +59,8 @@ const swaggerConfig: Options = {
         Alerts: AlertsExample,
         Assignment: AssignmentExample,
         Assignments: AssignmentsExample,
+        Device: DeviceExample,
+        Devices: DevicesExample,
         HealthCondition: HealthConditionExample,
         HealthConditions: HealthConditionsExample,
         Worker: WorkerExample,

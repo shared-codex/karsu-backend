@@ -21,7 +21,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/Device'
  *             examples:
  *               Devices:
- *                 $ref: '../swagger/examples/Devices.json'
+ *                 $ref: '#/components/examples/Devices'
  *       404:
  *         description: Devices not found
  *         content:
@@ -58,7 +58,7 @@ const router = Router();
  *               - status
  *           examples:
  *             Device:
- *               $ref: '../swagger/examples/Device.json'
+ *               $ref: '#/components/examples/Device'
  *     responses:
  *       201:
  *         description: Device created
@@ -68,7 +68,7 @@ const router = Router();
  *               $ref: '#/components/schemas/Device'
  *             examples:
  *               Device:
- *                 $ref: '../swagger/examples/Device.json'
+ *                 $ref: '#/components/examples/Device'
  *       400:
  *         description: Invalid input
  *       500:
@@ -103,7 +103,7 @@ router.post("/", createDevice);
  *               $ref: '#/components/schemas/Device'
  *             examples:
  *               Device:
- *                 $ref: '../swagger/examples/Device.json'
+ *                 $ref: '#/components/examples/Device'
  *       404:
  *         description: Device not found
  *         content:
@@ -146,7 +146,7 @@ router.post("/", createDevice);
  *               - status
  *           examples:
  *             Device:
- *               $ref: '../swagger/examples/Device.json'
+ *               $ref: '#/components/examples/Device'
  *     responses:
  *       204:
  *         description: Device updated
