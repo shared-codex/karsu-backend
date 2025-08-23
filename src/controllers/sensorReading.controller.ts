@@ -13,8 +13,11 @@ export const getSensorReadings = async (req: Request, res: Response) => {
     if (deviceId) {
       query = query.where("sr.device_id = :deviceId", { deviceId });
     }
-    if (fromTimestamp && toTimestamp) {
-      query = query.andWhere("sr.timestamp BETWEEN :fromTimestamp AND :toTimestamp", { fromTimestamp, toTimestamp });
+    if (fromTimestamp) {
+      query = query.andWhere("sr.timestamp >= :fromTimestamp", { fromTimestamp });
+    }
+    if (toTimestamp) {
+      query = query.andWhere("sr.timestamp <= :toTimestamp", { toTimestamp });
     }
     const readings = await query.getMany();
     res.json(readings);
