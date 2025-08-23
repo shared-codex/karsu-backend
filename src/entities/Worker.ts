@@ -5,6 +5,13 @@ import { WorkerHealthCondition } from "./WorkerHealthCondition";
 import { WorkerHealthIncident } from "./WorkerHealthIncident";
 import { Alert } from "./Alert";
 
+export enum RelationEnum {
+  Parent = "Parent",
+  Spouse = "Spouse",
+  Sibling = "Sibling",
+  Friend = "Friend",
+}
+
 @Entity({ name: "workers" })
 export class Worker {
   @PrimaryGeneratedColumn()
@@ -28,8 +35,8 @@ export class Worker {
   @Column({ type: "varchar", length: 15, nullable: true })
   emergency_contact_phone?: string | null;
 
-  @Column({ type: "varchar", nullable: true })
-  emergency_contact_relation?: string | null; // Consider using an enum constraint
+  @Column({ type: "enum", enum: RelationEnum, nullable: true })
+  emergency_contact_relation?: RelationEnum | null;
 
   @OneToMany(() => WorkerDeviceAssignment, assignment => assignment.worker)
   assignments!: WorkerDeviceAssignment[];
