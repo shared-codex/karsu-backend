@@ -6,6 +6,8 @@ import {
   updateAlert,
   deleteAlert,
 } from "../controllers/alert.controller";
+import { AlertType } from "../entities/Alert";
+import { validateEnum } from "../middleware/enumValidation.middleware";
 
 const router = Router();
 
@@ -71,7 +73,11 @@ const router = Router();
  *               message: Internal server error
  */
 router.get("/", getAlerts);
-router.post("/", createAlert);
+router.post(
+  "/",
+  validateEnum("alert_type", Object.values(AlertType)),
+  createAlert
+);
 
 /**
  * @openapi
@@ -169,7 +175,11 @@ router.post("/", createAlert);
  *               message: Internal server error
  */
 router.get("/:id", getAlertById);
-router.put("/:id", updateAlert);
+router.put(
+  "/:id",
+  validateEnum("alert_type", Object.values(AlertType)),
+  updateAlert
+);
 router.delete("/:id", deleteAlert);
 
 export default router;
