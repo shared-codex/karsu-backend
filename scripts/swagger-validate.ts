@@ -13,9 +13,11 @@ function processExamples(obj: any) {
         const ex = obj.examples[key];
         if (ex && typeof ex === 'object') {
           if ('$ref' in ex && typeof ex.$ref === 'string') {
-            const refPath = path.resolve(baseDir, ex.$ref);
-            const data = JSON.parse(fs.readFileSync(refPath, 'utf8'));
-            obj.examples[key] = { value: data };
+            if (!ex.$ref.startsWith('#/')) {
+              const refPath = path.resolve(baseDir, ex.$ref);
+              const data = JSON.parse(fs.readFileSync(refPath, 'utf8'));
+              obj.examples[key] = { value: data };
+            }
           } else if (!('value' in ex)) {
             obj.examples[key] = { value: ex };
           }

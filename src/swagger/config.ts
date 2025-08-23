@@ -12,6 +12,8 @@ import WorkerHealthConditionSchema, {
 } from "./schemas/WorkerHealthCondition";
 import WorkerHealthIncidentSchema from "./schemas/WorkerHealthIncident";
 import SensorReadingSchema from "./schemas/SensorReading";
+import AlertExample from "./examples/Alert.json";
+import AlertsExample from "./examples/Alerts.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -41,6 +43,10 @@ const swaggerConfig: Options = {
         ConditionStatus: ConditionStatusSchema,
         WorkerHealthIncident: WorkerHealthIncidentSchema,
         SensorReading: SensorReadingSchema,
+      },
+      examples: {
+        Alert: AlertExample,
+        Alerts: AlertsExample,
       },
     },
   },
