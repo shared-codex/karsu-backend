@@ -1,0 +1,5 @@
+{
+  "permission_id": 1,
+  "name": "view_workers",
+  "description": "Can view workers"
+}

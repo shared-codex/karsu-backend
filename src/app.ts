@@ -8,6 +8,7 @@ import sensorReadingRoutes from "./routes/sensorReading.routes";
 import healthConditionRoutes from "./routes/healthCondition.routes";
 import healthIncidentRoutes from "./routes/healthIncident.routes";
 import roleRoutes from "./routes/role.routes";
+import permissionRoutes from "./routes/permission.routes";
 import alertRoutes from "./routes/alert.routes";
 import { swaggerServe, swaggerSetup } from "./swagger";
 
@@ -24,6 +25,7 @@ app.use("/api/shifts", shiftRoutes);
 app.use("/api/sensor-readings", sensorReadingRoutes);
 app.use("/api/health-conditions", healthConditionRoutes);
 app.use("/api/health-incidents", healthIncidentRoutes);
+app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/alerts", alertRoutes);
 
