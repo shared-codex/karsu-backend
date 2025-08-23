@@ -55,6 +55,19 @@ export const updateDevice = async (req: Request, res: Response) => {
 
 export const deleteDevice = async (req: Request, res: Response) => {
   try {
+    const force = req.query.force === "true";
+    if (!force) {
+      const device = await deviceRepository.findOne({
+        where: { device_id: req.params.id },
+        relations: ["assignments", "sensorReadings"],
+      });
+      if (!device) return res.status(404).json({ error: "Device not found" });
+      if (device.assignments.length || device.sensorReadings.length) {
+        return res
+          .status(400)
+          .json({ error: "Device has related records. Use ?force=true to delete." });
+      }
+    }
     const result = await deviceRepository.delete(req.params.id);
     if (result.affected === 0) return res.status(404).json({ error: "Device not found" });
     return res.status(204).send();

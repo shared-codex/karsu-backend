@@ -18,7 +18,7 @@ export class ShiftAttendance {
   @Column({ type: "time", nullable: true })
   clock_out_time?: string | null;
 
-  @ManyToOne(() => Worker, worker => worker.shifts)
+  @ManyToOne(() => Worker, worker => worker.shifts, { onDelete: "CASCADE" })
   @JoinColumn({ name: "worker_id" })
   worker!: Worker;
 }

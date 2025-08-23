@@ -34,7 +34,7 @@ export class WorkerHealthIncident {
   @Column({ type: "text", nullable: true })
   notes?: string | null;
 
-  @ManyToOne(() => Worker, worker => worker.healthIncidents)
+  @ManyToOne(() => Worker, worker => worker.healthIncidents, { onDelete: "CASCADE" })
   @JoinColumn({ name: "worker_id" })
   worker!: Worker;
 }
