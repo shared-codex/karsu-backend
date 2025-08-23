@@ -43,7 +43,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/SensorReading'
  *             examples:
  *               SensorReadings:
- *                 $ref: '../swagger/examples/SensorReadings.json'
+ *                 $ref: '#/components/examples/SensorReadings'
  *       500:
  *         description: Failed to fetch sensor readings
  *         content:
@@ -66,7 +66,7 @@ const router = Router();
  *             $ref: '#/components/schemas/SensorReading'
  *           examples:
  *             SensorReading:
- *               $ref: '../swagger/examples/SensorReading.json'
+ *               $ref: '#/components/examples/SensorReading'
  *     responses:
  *       201:
  *         description: Sensor reading created
@@ -76,7 +76,7 @@ const router = Router();
  *               $ref: '#/components/schemas/SensorReading'
  *             examples:
  *               SensorReading:
- *                 $ref: '../swagger/examples/SensorReading.json'
+ *                 $ref: '#/components/examples/SensorReading'
  *       500:
  *         description: Failed to create sensor reading
  *         content:

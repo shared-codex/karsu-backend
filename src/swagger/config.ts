@@ -30,6 +30,8 @@ import RoleExample from "./examples/Role.json";
 import RolesExample from "./examples/Roles.json";
 import PermissionExample from "./examples/Permission.json";
 import PermissionsExample from "./examples/Permissions.json";
+import SensorReadingExample from "./examples/SensorReading.json";
+import SensorReadingsExample from "./examples/SensorReadings.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -79,6 +81,8 @@ const swaggerConfig: Options = {
         Workers: WorkersExample,
         ShiftAttendance: ShiftAttendanceExample,
         ShiftAttendances: ShiftAttendancesExample,
+        SensorReading: SensorReadingExample,
+        SensorReadings: SensorReadingsExample,
       },
     },
   },
