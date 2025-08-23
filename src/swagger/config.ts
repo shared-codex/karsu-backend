@@ -20,6 +20,8 @@ import DeviceExample from "./examples/Device.json";
 import DevicesExample from "./examples/Devices.json";
 import HealthConditionExample from "./examples/HealthCondition.json";
 import HealthConditionsExample from "./examples/HealthConditions.json";
+import HealthIncidentExample from "./examples/HealthIncident.json";
+import HealthIncidentsExample from "./examples/HealthIncidents.json";
 import WorkerExample from "./examples/Worker.json";
 import WorkersExample from "./examples/Workers.json";
 import ShiftAttendanceExample from "./examples/ShiftAttendance.json";
@@ -67,6 +69,8 @@ const swaggerConfig: Options = {
         Devices: DevicesExample,
         HealthCondition: HealthConditionExample,
         HealthConditions: HealthConditionsExample,
+        HealthIncident: HealthIncidentExample,
+        HealthIncidents: HealthIncidentsExample,
         Role: RoleExample,
         Roles: RolesExample,
         Permission: PermissionExample,
