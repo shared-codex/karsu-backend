@@ -35,11 +35,9 @@ export const createRole = async (req: Request, res: Response) => {
 
 export const updateRole = async (req: Request, res: Response) => {
   try {
-    const role = await roleRepository.findOneBy({ role_id: Number(req.params.id) });
-    if (!role) return res.status(404).json({ error: "Role not found" });
-    roleRepository.merge(role, req.body);
-    const result = await roleRepository.save(role);
-    res.json(result);
+    const result = await roleRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update role" });
   }
@@ -48,7 +46,8 @@ export const updateRole = async (req: Request, res: Response) => {
 export const deleteRole = async (req: Request, res: Response) => {
   try {
     const result = await roleRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete role" });
   }

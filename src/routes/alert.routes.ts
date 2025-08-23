@@ -128,15 +128,8 @@ router.post("/", createAlert);
  *             Alert:
  *               $ref: '../swagger/examples/Alert.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Alert updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Alert'
- *             examples:
- *               Alert:
- *                 $ref: '../swagger/examples/Alert.json'
  *       404:
  *         description: Alert not found
  *         content:

@@ -35,11 +35,9 @@ export const createShift = async (req: Request, res: Response) => {
 
 export const updateShift = async (req: Request, res: Response) => {
   try {
-    const shift = await shiftRepository.findOneBy({ attendance_id: Number(req.params.id) });
-    if (!shift) return res.status(404).json({ error: "Shift not found" });
-    shiftRepository.merge(shift, req.body);
-    const result = await shiftRepository.save(shift);
-    res.json(result);
+    const result = await shiftRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Shift not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update shift" });
   }
@@ -48,7 +46,8 @@ export const updateShift = async (req: Request, res: Response) => {
 export const deleteShift = async (req: Request, res: Response) => {
   try {
     const result = await shiftRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Shift not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete shift" });
   }

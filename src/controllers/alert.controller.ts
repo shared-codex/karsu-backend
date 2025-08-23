@@ -35,11 +35,9 @@ export const createAlert = async (req: Request, res: Response) => {
 
 export const updateAlert = async (req: Request, res: Response) => {
   try {
-    const alert = await alertRepository.findOneBy({ alert_id: Number(req.params.id) });
-    if (!alert) return res.status(404).json({ error: "Alert not found" });
-    alertRepository.merge(alert, req.body);
-    const result = await alertRepository.save(alert);
-    res.json(result);
+    const result = await alertRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update alert" });
   }
@@ -48,7 +46,8 @@ export const updateAlert = async (req: Request, res: Response) => {
 export const deleteAlert = async (req: Request, res: Response) => {
   try {
     const result = await alertRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete alert" });
   }

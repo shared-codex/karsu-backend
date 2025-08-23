@@ -35,11 +35,9 @@ export const createWorker = async (req: Request, res: Response) => {
 
 export const updateWorker = async (req: Request, res: Response) => {
   try {
-    const worker = await workerRepository.findOneBy({ worker_id: Number(req.params.id) });
-    if (!worker) return res.status(404).json({ error: "Worker not found" });
-    workerRepository.merge(worker, req.body);
-    const result = await workerRepository.save(worker);
-    res.json(result);
+    const result = await workerRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update worker" });
   }
@@ -48,7 +46,8 @@ export const updateWorker = async (req: Request, res: Response) => {
 export const deleteWorker = async (req: Request, res: Response) => {
   try {
     const result = await workerRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete worker" });
   }

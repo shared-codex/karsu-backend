@@ -40,16 +40,14 @@ export const createDevice = async (req: Request, res: Response) => {
 
 export const updateDevice = async (req: Request, res: Response) => {
   try {
-    const device = await deviceRepository.findOneBy({ device_id: req.params.id });
-    if (!device) return res.status(404).json({ error: "Device not found" });
     const { status, ...data } = req.body;
     if (status && !Object.values(DeviceStatus).includes(status)) {
       return res.status(400).json({ error: "Invalid status" });
     }
     const deviceStatus = status as DeviceStatus | undefined;
-    deviceRepository.merge(device, { ...data, status: deviceStatus });
-    const result = await deviceRepository.save(device);
-    res.json(result);
+    const result = await deviceRepository.update(req.params.id, { ...data, status: deviceStatus });
+    if (result.affected === 0) return res.status(404).json({ error: "Device not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update device" });
   }
@@ -58,7 +56,8 @@ export const updateDevice = async (req: Request, res: Response) => {
 export const deleteDevice = async (req: Request, res: Response) => {
   try {
     const result = await deviceRepository.delete(req.params.id);
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Device not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete device" });
   }

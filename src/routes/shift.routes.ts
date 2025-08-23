@@ -162,15 +162,8 @@ router.post("/", createShift);
  *             ShiftAttendance:
  *               $ref: '../swagger/examples/ShiftAttendance.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Shift attendance updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ShiftAttendance'
- *             examples:
- *               ShiftAttendance:
- *                 $ref: '../swagger/examples/ShiftAttendance.json'
  *       404:
  *         description: Shift attendance not found
  *         content:

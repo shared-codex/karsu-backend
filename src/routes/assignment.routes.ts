@@ -159,15 +159,8 @@ router.post("/", createAssignment);
  *             Assignment:
  *               $ref: '../swagger/examples/Assignment.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Assignment updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/WorkerDeviceAssignment'
- *             examples:
- *               Assignment:
- *                 $ref: '../swagger/examples/Assignment.json'
  *       404:
  *         description: Assignment not found
  *         content:

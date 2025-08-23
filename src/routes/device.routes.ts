@@ -148,15 +148,8 @@ router.post("/", createDevice);
  *             Device:
  *               $ref: '../swagger/examples/Device.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Device updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Device'
- *             examples:
- *               Device:
- *                 $ref: '../swagger/examples/Device.json'
  *       404:
  *         description: Device not found
  *         content:

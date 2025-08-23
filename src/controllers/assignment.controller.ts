@@ -35,11 +35,9 @@ export const createAssignment = async (req: Request, res: Response) => {
 
 export const updateAssignment = async (req: Request, res: Response) => {
   try {
-    const assignment = await assignmentRepository.findOneBy({ assignment_id: Number(req.params.id) });
-    if (!assignment) return res.status(404).json({ error: "Assignment not found" });
-    assignmentRepository.merge(assignment, req.body);
-    const result = await assignmentRepository.save(assignment);
-    res.json(result);
+    const result = await assignmentRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Assignment not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update assignment" });
   }
@@ -48,7 +46,8 @@ export const updateAssignment = async (req: Request, res: Response) => {
 export const deleteAssignment = async (req: Request, res: Response) => {
   try {
     const result = await assignmentRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Assignment not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete assignment" });
   }
