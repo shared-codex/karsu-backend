@@ -27,7 +27,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/Worker'
  *             examples:
  *               Workers:
- *                 $ref: '../swagger/examples/Workers.json'
+ *                 $ref: '#/components/examples/Workers'
  *       404:
  *         description: Workers not found
  *         content:
@@ -52,7 +52,7 @@ const router = Router();
  *             $ref: '#/components/schemas/Worker'
  *           examples:
  *             Worker:
- *               $ref: '../swagger/examples/Worker.json'
+ *               $ref: '#/components/examples/Worker'
  *     responses:
  *       201:
  *         description: Worker created
@@ -62,7 +62,7 @@ const router = Router();
  *               $ref: '#/components/schemas/Worker'
  *             examples:
  *               Worker:
- *                 $ref: '../swagger/examples/Worker.json'
+ *                 $ref: '#/components/examples/Worker'
  *       404:
  *         description: Worker not found
  *         content:
@@ -101,7 +101,7 @@ router.post("/", createWorker);
  *               $ref: '#/components/schemas/Worker'
  *             examples:
  *               Worker:
- *                 $ref: '../swagger/examples/Worker.json'
+ *                 $ref: '#/components/examples/Worker'
  *       404:
  *         description: Worker not found
  *         content:
@@ -132,7 +132,7 @@ router.post("/", createWorker);
  *             $ref: '#/components/schemas/Worker'
  *           examples:
  *             Worker:
- *               $ref: '../swagger/examples/Worker.json'
+ *               $ref: '#/components/examples/Worker'
  *     responses:
  *       204:
  *         description: Worker updated
