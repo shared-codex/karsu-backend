@@ -29,7 +29,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/Alert'
  *             examples:
  *               Alerts:
- *                 $ref: '../swagger/examples/Alerts.json'
+ *                 $ref: '#/components/examples/Alerts'
  *       404:
  *         description: Alerts not found
  *         content:
@@ -54,7 +54,7 @@ const router = Router();
  *             $ref: '#/components/schemas/Alert'
  *           examples:
  *             Alert:
- *               $ref: '../swagger/examples/Alert.json'
+ *               $ref: '#/components/examples/Alert'
  *     responses:
  *       201:
  *         description: Alert created
@@ -64,7 +64,7 @@ const router = Router();
  *               $ref: '#/components/schemas/Alert'
  *             examples:
  *               Alert:
- *                 $ref: '../swagger/examples/Alert.json'
+ *                 $ref: '#/components/examples/Alert'
  *       500:
  *         description: Internal server error
  *         content:
@@ -101,7 +101,7 @@ router.post(
  *               $ref: '#/components/schemas/Alert'
  *             examples:
  *               Alert:
- *                 $ref: '../swagger/examples/Alert.json'
+ *                 $ref: '#/components/examples/Alert'
  *       404:
  *         description: Alert not found
  *         content:
@@ -132,7 +132,7 @@ router.post(
  *             $ref: '#/components/schemas/Alert'
  *           examples:
  *             Alert:
- *               $ref: '../swagger/examples/Alert.json'
+ *               $ref: '#/components/examples/Alert'
  *     responses:
  *       204:
  *         description: Alert updated
