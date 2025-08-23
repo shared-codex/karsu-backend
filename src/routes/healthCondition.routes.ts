@@ -128,15 +128,8 @@ router.post("/", createHealthCondition);
  *             HealthCondition:
  *               $ref: '../swagger/examples/HealthCondition.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Health condition updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/WorkerHealthCondition'
- *             examples:
- *               HealthCondition:
- *                 $ref: '../swagger/examples/HealthCondition.json'
  *       404:
  *         description: Health condition not found
  *         content:

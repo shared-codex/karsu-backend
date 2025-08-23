@@ -134,15 +134,8 @@ router.post("/", createWorker);
  *             Worker:
  *               $ref: '../swagger/examples/Worker.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Worker updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Worker'
- *             examples:
- *               Worker:
- *                 $ref: '../swagger/examples/Worker.json'
  *       404:
  *         description: Worker not found
  *         content:

@@ -122,15 +122,8 @@ router.post("/", createRole);
  *             Role:
  *               $ref: '../swagger/examples/Role.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Role updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Role'
- *             examples:
- *               Role:
- *                 $ref: '../swagger/examples/Role.json'
  *       404:
  *         description: Role not found
  *         content:

@@ -130,15 +130,8 @@ router.post("/", createHealthIncident);
  *             HealthIncident:
  *               $ref: '../swagger/examples/HealthIncident.json'
  *     responses:
- *       200:
+ *       204:
  *         description: Health incident updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/WorkerHealthIncident'
- *             examples:
- *               HealthIncident:
- *                 $ref: '../swagger/examples/HealthIncident.json'
  *       404:
  *         description: Health incident not found
  *         content:

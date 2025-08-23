@@ -35,11 +35,9 @@ export const createHealthIncident = async (req: Request, res: Response) => {
 
 export const updateHealthIncident = async (req: Request, res: Response) => {
   try {
-    const incident = await healthIncidentRepository.findOneBy({ incident_id: Number(req.params.id) });
-    if (!incident) return res.status(404).json({ error: "Health incident not found" });
-    healthIncidentRepository.merge(incident, req.body);
-    const result = await healthIncidentRepository.save(incident);
-    res.json(result);
+    const result = await healthIncidentRepository.update(Number(req.params.id), req.body);
+    if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to update health incident" });
   }
@@ -48,7 +46,8 @@ export const updateHealthIncident = async (req: Request, res: Response) => {
 export const deleteHealthIncident = async (req: Request, res: Response) => {
   try {
     const result = await healthIncidentRepository.delete(Number(req.params.id));
-    res.json(result);
+    if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
+    return res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: "Failed to delete health incident" });
   }
