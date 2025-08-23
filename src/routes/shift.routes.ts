@@ -21,7 +21,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/ShiftAttendance'
  *             examples:
  *               ShiftAttendances:
- *                 $ref: '../swagger/examples/ShiftAttendances.json'
+ *                 $ref: '#/components/examples/ShiftAttendances'
  *       404:
  *         description: Shift attendance not found
  *         content:
@@ -63,7 +63,7 @@ const router = Router();
  *               - clock_in_time
  *           examples:
  *             ShiftAttendance:
- *               $ref: '../swagger/examples/ShiftAttendance.json'
+ *               $ref: '#/components/examples/ShiftAttendance'
  *     responses:
  *       201:
  *         description: Shift attendance created
@@ -73,7 +73,7 @@ const router = Router();
  *               $ref: '#/components/schemas/ShiftAttendance'
  *             examples:
  *               ShiftAttendance:
- *                 $ref: '../swagger/examples/ShiftAttendance.json'
+ *                 $ref: '#/components/examples/ShiftAttendance'
  *       404:
  *         description: Shift attendance not found
  *         content:
@@ -112,7 +112,7 @@ router.post("/", createShift);
  *               $ref: '#/components/schemas/ShiftAttendance'
  *             examples:
  *               ShiftAttendance:
- *                 $ref: '../swagger/examples/ShiftAttendance.json'
+ *                 $ref: '#/components/examples/ShiftAttendance'
  *       404:
  *         description: Shift attendance not found
  *         content:
@@ -160,7 +160,7 @@ router.post("/", createShift);
  *               - clock_in_time
  *           examples:
  *             ShiftAttendance:
- *               $ref: '../swagger/examples/ShiftAttendance.json'
+ *               $ref: '#/components/examples/ShiftAttendance'
  *     responses:
  *       204:
  *         description: Shift attendance updated

@@ -20,6 +20,8 @@ import HealthConditionExample from "./examples/HealthCondition.json";
 import HealthConditionsExample from "./examples/HealthConditions.json";
 import WorkerExample from "./examples/Worker.json";
 import WorkersExample from "./examples/Workers.json";
+import ShiftAttendanceExample from "./examples/ShiftAttendance.json";
+import ShiftAttendancesExample from "./examples/ShiftAttendances.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -59,6 +61,8 @@ const swaggerConfig: Options = {
         HealthConditions: HealthConditionsExample,
         Worker: WorkerExample,
         Workers: WorkersExample,
+        ShiftAttendance: ShiftAttendanceExample,
+        ShiftAttendances: ShiftAttendancesExample,
       },
     },
   },
