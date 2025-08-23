@@ -27,7 +27,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/Permission'
  *             examples:
  *               Permissions:
- *                 $ref: '../swagger/examples/Permissions.json'
+ *                 $ref: '#/components/examples/Permissions'
  *       500:
  *         description: Internal server error
  *         content:
@@ -46,7 +46,7 @@ const router = Router();
  *             $ref: '#/components/schemas/Permission'
  *           examples:
  *             Permission:
- *               $ref: '../swagger/examples/Permission.json'
+ *               $ref: '#/components/examples/Permission'
  *     responses:
  *       201:
  *         description: Permission created
@@ -56,7 +56,7 @@ const router = Router();
  *               $ref: '#/components/schemas/Permission'
  *             examples:
  *               Permission:
- *                 $ref: '../swagger/examples/Permission.json'
+ *                 $ref: '#/components/examples/Permission'
  *       500:
  *         description: Internal server error
  *         content:
@@ -89,7 +89,7 @@ router.post("/", createPermission);
  *               $ref: '#/components/schemas/Permission'
  *             examples:
  *               Permission:
- *                 $ref: '../swagger/examples/Permission.json'
+ *                 $ref: '#/components/examples/Permission'
  *       404:
  *         description: Permission not found
  *         content:
@@ -120,7 +120,7 @@ router.post("/", createPermission);
  *             $ref: '#/components/schemas/Permission'
  *           examples:
  *             Permission:
- *               $ref: '../swagger/examples/Permission.json'
+ *               $ref: '#/components/examples/Permission'
  *     responses:
  *       204:
  *         description: Permission updated
