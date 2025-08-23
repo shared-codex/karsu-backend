@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || "your_db_username",
   password: process.env.DB_PASSWORD || "your_db_password",
   database: process.env.DB_DATABASE || "your_db_name",
-  synchronize: true, // for development; use migrations in production
+  synchronize: false,
   logging: false,
   entities: [
     Worker,
@@ -30,5 +30,7 @@ export const AppDataSource = new DataSource({
     Role,
     Alert,
     Permission
-  ]
+  ],
+  migrations: ["src/migrations/*.ts"],
+  migrationsRun: true
 });
