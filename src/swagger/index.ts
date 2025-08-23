@@ -6,5 +6,3 @@ const swaggerSpec = swaggerJsdoc(swaggerConfig);
 
 export const swaggerServe = swaggerUi.serve;
 export const swaggerSetup = swaggerUi.setup(swaggerSpec);
-
-export default { swaggerServe, swaggerSetup };

@@ -6,7 +6,7 @@ import swaggerConfig from '../src/swagger/config';
 
 const baseDir = path.join(__dirname, '..', 'src', 'routes');
 
-function processExamples(obj: any) {
+function processExamples(obj) {
   if (obj && typeof obj === 'object') {
     if (obj.examples && typeof obj.examples === 'object') {
       for (const key of Object.keys(obj.examples)) {
