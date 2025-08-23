@@ -15,7 +15,9 @@ export const getPermissions = async (req: Request, res: Response) => {
 
 export const getPermissionById = async (req: Request, res: Response) => {
   try {
-    const permission = await permissionRepository.findOne({ where: { permission_id: Number(req.params.id) } });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const permission = await permissionRepository.findOne({ where: { permission_id: Number(idParam) } });
     if (!permission) return res.status(404).json({ error: "Permission not found" });
     res.json(permission);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createPermission = async (req: Request, res: Response) => {
 
 export const updatePermission = async (req: Request, res: Response) => {
   try {
-    const result = await permissionRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await permissionRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Permission not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updatePermission = async (req: Request, res: Response) => {
 
 export const deletePermission = async (req: Request, res: Response) => {
   try {
-    const result = await permissionRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await permissionRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Permission not found" });
     return res.status(204).send();
   } catch (error) {

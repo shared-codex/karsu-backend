@@ -15,7 +15,9 @@ export const getAlerts = async (req: Request, res: Response) => {
 
 export const getAlertById = async (req: Request, res: Response) => {
   try {
-    const alert = await alertRepository.findOneBy({ alert_id: Number(req.params.id) });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const alert = await alertRepository.findOneBy({ alert_id: Number(idParam) });
     if (!alert) return res.status(404).json({ error: "Alert not found" });
     res.json(alert);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createAlert = async (req: Request, res: Response) => {
 
 export const updateAlert = async (req: Request, res: Response) => {
   try {
-    const result = await alertRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await alertRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateAlert = async (req: Request, res: Response) => {
 
 export const deleteAlert = async (req: Request, res: Response) => {
   try {
-    const result = await alertRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await alertRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
     return res.status(204).send();
   } catch (error) {

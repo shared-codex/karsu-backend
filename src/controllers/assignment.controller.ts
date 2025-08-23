@@ -15,7 +15,9 @@ export const getAssignments = async (req: Request, res: Response) => {
 
 export const getAssignmentById = async (req: Request, res: Response) => {
   try {
-    const assignment = await assignmentRepository.findOneBy({ assignment_id: Number(req.params.id) });
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const assignment = await assignmentRepository.findOneBy({ assignment_id: Number(idParam) });
     if (!assignment) return res.status(404).json({ error: "Assignment not found" });
     res.json(assignment);
   } catch (error) {
@@ -35,7 +37,9 @@ export const createAssignment = async (req: Request, res: Response) => {
 
 export const updateAssignment = async (req: Request, res: Response) => {
   try {
-    const result = await assignmentRepository.update(Number(req.params.id), req.body);
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await assignmentRepository.update(Number(idParam), req.body);
     if (result.affected === 0) return res.status(404).json({ error: "Assignment not found" });
     return res.status(204).send();
   } catch (error) {
@@ -45,7 +49,9 @@ export const updateAssignment = async (req: Request, res: Response) => {
 
 export const deleteAssignment = async (req: Request, res: Response) => {
   try {
-    const result = await assignmentRepository.delete(Number(req.params.id));
+    const idParam = req.params.id;
+    if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
+    const result = await assignmentRepository.delete(Number(idParam));
     if (result.affected === 0) return res.status(404).json({ error: "Assignment not found" });
     return res.status(204).send();
   } catch (error) {
