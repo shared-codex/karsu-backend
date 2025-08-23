@@ -29,7 +29,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/WorkerHealthCondition'
  *             examples:
  *               HealthConditions:
- *                 $ref: '../swagger/examples/HealthConditions.json'
+ *                 $ref: '#/components/examples/HealthConditions'
  *       404:
  *         description: Health conditions not found
  *         content:
@@ -54,7 +54,7 @@ const router = Router();
  *             $ref: '#/components/schemas/WorkerHealthCondition'
  *           examples:
  *             HealthCondition:
- *               $ref: '../swagger/examples/HealthCondition.json'
+ *               $ref: '#/components/examples/HealthCondition'
  *     responses:
  *       201:
  *         description: Health condition created
@@ -64,7 +64,7 @@ const router = Router();
  *               $ref: '#/components/schemas/WorkerHealthCondition'
  *             examples:
  *               HealthCondition:
- *                 $ref: '../swagger/examples/HealthCondition.json'
+ *                 $ref: '#/components/examples/HealthCondition'
  *       500:
  *         description: Internal server error
  *         content:
@@ -102,7 +102,7 @@ router.post(
  *               $ref: '#/components/schemas/WorkerHealthCondition'
  *             examples:
  *               HealthCondition:
- *                 $ref: '../swagger/examples/HealthCondition.json'
+ *                 $ref: '#/components/examples/HealthCondition'
  *       404:
  *         description: Health condition not found
  *         content:
@@ -133,7 +133,7 @@ router.post(
  *             $ref: '#/components/schemas/WorkerHealthCondition'
  *           examples:
  *             HealthCondition:
- *               $ref: '../swagger/examples/HealthCondition.json'
+ *               $ref: '#/components/examples/HealthCondition'
  *     responses:
  *       204:
  *         description: Health condition updated
