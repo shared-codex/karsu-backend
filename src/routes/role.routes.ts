@@ -27,7 +27,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/Role'
  *             examples:
  *               Roles:
- *                 $ref: '../swagger/examples/Roles.json'
+ *                 $ref: '#/components/examples/Roles'
  *       500:
  *         description: Internal server error
  *         content:
@@ -46,7 +46,7 @@ const router = Router();
  *             $ref: '#/components/schemas/Role'
  *           examples:
  *             Role:
- *               $ref: '../swagger/examples/Role.json'
+ *               $ref: '#/components/examples/Role'
  *     responses:
  *       201:
  *         description: Role created
@@ -56,7 +56,7 @@ const router = Router();
  *               $ref: '#/components/schemas/Role'
  *             examples:
  *               Role:
- *                 $ref: '../swagger/examples/Role.json'
+ *                 $ref: '#/components/examples/Role'
  *       500:
  *         description: Internal server error
  *         content:
@@ -89,7 +89,7 @@ router.post("/", createRole);
  *               $ref: '#/components/schemas/Role'
  *             examples:
  *               Role:
- *                 $ref: '../swagger/examples/Role.json'
+ *                 $ref: '#/components/examples/Role'
  *       404:
  *         description: Role not found
  *         content:
@@ -120,7 +120,7 @@ router.post("/", createRole);
  *             $ref: '#/components/schemas/Role'
  *           examples:
  *             Role:
- *               $ref: '../swagger/examples/Role.json'
+ *               $ref: '#/components/examples/Role'
  *     responses:
  *       204:
  *         description: Role updated

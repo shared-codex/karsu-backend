@@ -24,6 +24,8 @@ import WorkerExample from "./examples/Worker.json";
 import WorkersExample from "./examples/Workers.json";
 import ShiftAttendanceExample from "./examples/ShiftAttendance.json";
 import ShiftAttendancesExample from "./examples/ShiftAttendances.json";
+import RoleExample from "./examples/Role.json";
+import RolesExample from "./examples/Roles.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -63,6 +65,8 @@ const swaggerConfig: Options = {
         Devices: DevicesExample,
         HealthCondition: HealthConditionExample,
         HealthConditions: HealthConditionsExample,
+        Role: RoleExample,
+        Roles: RolesExample,
         Worker: WorkerExample,
         Workers: WorkersExample,
         ShiftAttendance: ShiftAttendanceExample,
