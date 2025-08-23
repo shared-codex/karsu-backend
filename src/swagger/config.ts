@@ -16,6 +16,8 @@ import AlertExample from "./examples/Alert.json";
 import AlertsExample from "./examples/Alerts.json";
 import AssignmentExample from "./examples/Assignment.json";
 import AssignmentsExample from "./examples/Assignments.json";
+import HealthConditionExample from "./examples/HealthCondition.json";
+import HealthConditionsExample from "./examples/HealthConditions.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -51,6 +53,8 @@ const swaggerConfig: Options = {
         Alerts: AlertsExample,
         Assignment: AssignmentExample,
         Assignments: AssignmentsExample,
+        HealthCondition: HealthConditionExample,
+        HealthConditions: HealthConditionsExample,
       },
     },
   },
