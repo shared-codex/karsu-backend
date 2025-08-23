@@ -29,7 +29,7 @@ const router = Router();
  *                 $ref: '#/components/schemas/WorkerHealthIncident'
  *             examples:
  *               HealthIncidents:
- *                 $ref: '../swagger/examples/HealthIncidents.json'
+ *                 $ref: '#/components/examples/HealthIncidents'
  *       404:
  *         description: Health incidents not found
  *         content:
@@ -55,7 +55,7 @@ const router = Router();
  *             $ref: '#/components/schemas/WorkerHealthIncident'
  *           examples:
  *             HealthIncident:
- *               $ref: '../swagger/examples/HealthIncident.json'
+ *               $ref: '#/components/examples/HealthIncident'
  *     responses:
  *       201:
  *         description: Health incident created
@@ -65,7 +65,7 @@ const router = Router();
  *               $ref: '#/components/schemas/WorkerHealthIncident'
  *             examples:
  *               HealthIncident:
- *                 $ref: '../swagger/examples/HealthIncident.json'
+ *                 $ref: '#/components/examples/HealthIncident'
  *       500:
  *         description: Internal server error
  *         content:
@@ -102,7 +102,7 @@ router.post(
  *               $ref: '#/components/schemas/WorkerHealthIncident'
  *             examples:
  *               HealthIncident:
- *                 $ref: '../swagger/examples/HealthIncident.json'
+ *                 $ref: '#/components/examples/HealthIncident'
  *       404:
  *         description: Health incident not found
  *         content:
@@ -134,7 +134,7 @@ router.post(
  *             $ref: '#/components/schemas/WorkerHealthIncident'
  *           examples:
  *             HealthIncident:
- *               $ref: '../swagger/examples/HealthIncident.json'
+ *               $ref: '#/components/examples/HealthIncident'
  *     responses:
  *       204:
  *         description: Health incident updated
