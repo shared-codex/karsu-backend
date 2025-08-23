@@ -36,7 +36,7 @@ export class Alert {
   @Column({ type: "boolean", default: true })
   is_active!: boolean;
 
-  @ManyToOne(() => Worker, worker => worker.alerts)
+  @ManyToOne(() => Worker, worker => worker.alerts, { onDelete: "CASCADE" })
   @JoinColumn({ name: "worker_id" })
   worker!: Worker;
 }

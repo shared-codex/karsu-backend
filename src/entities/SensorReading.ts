@@ -24,7 +24,7 @@ export class SensorReading {
   @Column({ type: "smallint" })
   battery_level!: number;
 
-  @ManyToOne(() => Device, device => device.sensorReadings)
+  @ManyToOne(() => Device, device => device.sensorReadings, { onDelete: "CASCADE" })
   @JoinColumn({ name: "device_id" })
   device!: Device;
 }

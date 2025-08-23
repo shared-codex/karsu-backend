@@ -19,11 +19,11 @@ export class WorkerDeviceAssignment {
   @Column({ type: "date", nullable: true })
   unassigned_date?: Date | null;
 
-  @ManyToOne(() => Worker, worker => worker.assignments)
+  @ManyToOne(() => Worker, worker => worker.assignments, { onDelete: "CASCADE" })
   @JoinColumn({ name: "worker_id" })
   worker!: Worker;
 
-  @ManyToOne(() => Device, device => device.assignments)
+  @ManyToOne(() => Device, device => device.assignments, { onDelete: "CASCADE" })
   @JoinColumn({ name: "device_id" })
   device!: Device;
 }
