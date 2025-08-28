@@ -1,11 +1,17 @@
 import { createHash } from "crypto";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { config } from "../config";
+import {
+  createCsrfSecret,
+  setCsrfCookie,
+  clearCsrfCookie,
+  validateCsrf,
+} from "./csrf";
 
 const REFRESH_COOKIE_NAME = "refreshToken";
 const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
-  sameSite: "strict" as const,
+  sameSite: "none" as const,
   secure: config.NODE_ENV === "production",
   path: "/",
 };
@@ -25,6 +31,8 @@ export function setRefreshCookie(res: Response, token: string): void {
     ...REFRESH_COOKIE_OPTIONS,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
+  const secret = createCsrfSecret();
+  setCsrfCookie(res, secret);
 }
 
 /**
@@ -32,4 +40,16 @@ export function setRefreshCookie(res: Response, token: string): void {
  */
 export function clearRefreshCookie(res: Response): void {
   res.clearCookie(REFRESH_COOKIE_NAME, REFRESH_COOKIE_OPTIONS);
+  clearCsrfCookie(res);
+}
+
+/**
+ * Get the refresh token from the request after validating the CSRF token.
+ */
+export function getRefreshToken(req: Request): string | null {
+  if (!validateCsrf(req)) {
+    return null;
+  }
+  const token = req.cookies?.[REFRESH_COOKIE_NAME];
+  return typeof token === "string" ? token : null;
 }
