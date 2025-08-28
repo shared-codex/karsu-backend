@@ -9,14 +9,15 @@ import { WorkerHealthIncident } from "./entities/WorkerHealthIncident";
 import { Role } from "./entities/Role";
 import { Alert } from "./entities/Alert";
 import { Permission } from "./entities/Permission";
+import { config } from "./config";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.DB_HOST || "localhost",
-  port: parseInt(process.env.DB_PORT || "5432"),
-  username: process.env.DB_USERNAME || "your_db_username",
-  password: process.env.DB_PASSWORD || "your_db_password",
-  database: process.env.DB_DATABASE || "your_db_name",
+  host: config.DB_HOST,
+  port: config.DB_PORT,
+  username: config.DB_USERNAME,
+  password: config.DB_PASSWORD,
+  database: config.DB_DATABASE,
   synchronize: false,
   logging: false,
   entities: [
