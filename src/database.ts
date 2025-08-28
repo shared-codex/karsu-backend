@@ -9,6 +9,7 @@ import { WorkerHealthIncident } from "./entities/WorkerHealthIncident";
 import { Role } from "./entities/Role";
 import { Alert } from "./entities/Alert";
 import { Permission } from "./entities/Permission";
+import { User } from "./entities/User";
 import { config } from "./config";
 
 export const AppDataSource = new DataSource({
@@ -30,7 +31,8 @@ export const AppDataSource = new DataSource({
     WorkerHealthIncident,
     Role,
     Alert,
-    Permission
+    Permission,
+    User
   ],
   migrations: ["src/migrations/*.ts"],
   migrationsRun: true
