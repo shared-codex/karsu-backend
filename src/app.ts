@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import workerRoutes from "./routes/worker.routes";
 // Import other routes similarly:
 import deviceRoutes from "./routes/device.routes";
@@ -17,6 +18,7 @@ import { errorHandler } from "./middleware/errorHandler";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api-docs", swaggerServe, swaggerSetup);
 
