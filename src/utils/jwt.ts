@@ -39,12 +39,12 @@ export function signRefreshToken(
  * Verify an access token and return its payload.
  */
 export function verifyAccessToken(token: string): AccessTokenPayload {
-  return jwt.verify(token, config.ACCESS_TOKEN_SECRET) as AccessTokenPayload;
+  return jwt.verify(token, config.ACCESS_TOKEN_SECRET) as unknown as AccessTokenPayload;
 }
 
 /**
  * Verify a refresh token and return its payload.
  */
 export function verifyRefreshToken(token: string): RefreshTokenPayload {
-  return jwt.verify(token, config.REFRESH_TOKEN_SECRET) as RefreshTokenPayload;
+  return jwt.verify(token, config.REFRESH_TOKEN_SECRET) as unknown as RefreshTokenPayload;
 }
