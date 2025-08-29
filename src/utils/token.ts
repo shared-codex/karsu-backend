@@ -11,9 +11,9 @@ import {
 const REFRESH_COOKIE_NAME = "refreshToken";
 const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
-  sameSite: "none" as const,
+  sameSite: "lax" as const,
   secure: config.NODE_ENV === "production",
-  path: "/",
+  path: "/auth/refresh",
 };
 
 /**
