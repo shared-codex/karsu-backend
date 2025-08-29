@@ -12,6 +12,7 @@ import permissionRoutes from "./routes/permission.routes";
 import alertRoutes from "./routes/alert.routes";
 import authRoutes from "./routes/auth.routes";
 import { swaggerServe, swaggerSetup } from "./swagger";
+import { errorHandler } from "./middleware/errorHandler";
 
 const app = express();
 
@@ -30,5 +31,7 @@ app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/auth", authRoutes);
+
+app.use(errorHandler);
 
 export default app;

@@ -1,19 +1,27 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../database";
 import { Alert } from "../entities/Alert";
 
 const alertRepository = AppDataSource.getRepository(Alert);
 
-export const getAlerts = async (req: Request, res: Response) => {
+export const getAlerts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const alerts = await alertRepository.find();
     res.json(alerts);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch alerts" });
+    next(new Error("Failed to fetch alerts"));
   }
 };
 
-export const getAlertById = async (req: Request, res: Response) => {
+export const getAlertById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -21,21 +29,29 @@ export const getAlertById = async (req: Request, res: Response) => {
     if (!alert) return res.status(404).json({ error: "Alert not found" });
     res.json(alert);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch alert" });
+    next(new Error("Failed to fetch alert"));
   }
 };
 
-export const createAlert = async (req: Request, res: Response) => {
+export const createAlert = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const newAlert = alertRepository.create(req.body);
     const result = await alertRepository.save(newAlert);
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create alert" });
+    next(new Error("Failed to create alert"));
   }
 };
 
-export const updateAlert = async (req: Request, res: Response) => {
+export const updateAlert = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -43,11 +59,15 @@ export const updateAlert = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to update alert" });
+    next(new Error("Failed to update alert"));
   }
 };
 
-export const deleteAlert = async (req: Request, res: Response) => {
+export const deleteAlert = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -55,6 +75,6 @@ export const deleteAlert = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Alert not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete alert" });
+    next(new Error("Failed to delete alert"));
   }
 };

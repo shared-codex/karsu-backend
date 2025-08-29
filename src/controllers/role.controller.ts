@@ -1,19 +1,27 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../database";
 import { Role } from "../entities/Role";
 
 const roleRepository = AppDataSource.getRepository(Role);
 
-export const getRoles = async (req: Request, res: Response) => {
+export const getRoles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const roles = await roleRepository.find({ relations: ["permissions"] });
     res.json(roles);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch roles" });
+    next(new Error("Failed to fetch roles"));
   }
 };
 
-export const getRoleById = async (req: Request, res: Response) => {
+export const getRoleById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -21,21 +29,29 @@ export const getRoleById = async (req: Request, res: Response) => {
     if (!role) return res.status(404).json({ error: "Role not found" });
     res.json(role);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch role" });
+    next(new Error("Failed to fetch role"));
   }
 };
 
-export const createRole = async (req: Request, res: Response) => {
+export const createRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const newRole = roleRepository.create(req.body);
     const result = await roleRepository.save(newRole);
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create role" });
+    next(new Error("Failed to create role"));
   }
 };
 
-export const updateRole = async (req: Request, res: Response) => {
+export const updateRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -43,11 +59,15 @@ export const updateRole = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to update role" });
+    next(new Error("Failed to update role"));
   }
 };
 
-export const deleteRole = async (req: Request, res: Response) => {
+export const deleteRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -55,6 +75,6 @@ export const deleteRole = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Role not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete role" });
+    next(new Error("Failed to delete role"));
   }
 };

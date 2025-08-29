@@ -1,19 +1,27 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../database";
 import { WorkerHealthIncident } from "../entities/WorkerHealthIncident";
 
 const healthIncidentRepository = AppDataSource.getRepository(WorkerHealthIncident);
 
-export const getHealthIncidents = async (req: Request, res: Response) => {
+export const getHealthIncidents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const incidents = await healthIncidentRepository.find();
     res.json(incidents);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch health incidents" });
+    next(new Error("Failed to fetch health incidents"));
   }
 };
 
-export const getHealthIncidentById = async (req: Request, res: Response) => {
+export const getHealthIncidentById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -21,21 +29,29 @@ export const getHealthIncidentById = async (req: Request, res: Response) => {
     if (!incident) return res.status(404).json({ error: "Health incident not found" });
     res.json(incident);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch health incident" });
+    next(new Error("Failed to fetch health incident"));
   }
 };
 
-export const createHealthIncident = async (req: Request, res: Response) => {
+export const createHealthIncident = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const newIncident = healthIncidentRepository.create(req.body);
     const result = await healthIncidentRepository.save(newIncident);
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create health incident" });
+    next(new Error("Failed to create health incident"));
   }
 };
 
-export const updateHealthIncident = async (req: Request, res: Response) => {
+export const updateHealthIncident = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -43,11 +59,15 @@ export const updateHealthIncident = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to update health incident" });
+    next(new Error("Failed to update health incident"));
   }
 };
 
-export const deleteHealthIncident = async (req: Request, res: Response) => {
+export const deleteHealthIncident = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -55,6 +75,6 @@ export const deleteHealthIncident = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Health incident not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete health incident" });
+    next(new Error("Failed to delete health incident"));
   }
 };

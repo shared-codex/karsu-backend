@@ -1,29 +1,41 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../database";
 import { Device, DeviceStatus } from "../entities/Device";
 
 const deviceRepository = AppDataSource.getRepository(Device);
 
-export const getDevices = async (req: Request, res: Response) => {
+export const getDevices = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const devices = await deviceRepository.find();
     res.json(devices);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch devices" });
+    next(new Error("Failed to fetch devices"));
   }
 };
 
-export const getDeviceById = async (req: Request, res: Response) => {
+export const getDeviceById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const device = await deviceRepository.findOneBy({ device_id: req.params.id });
     if (!device) return res.status(404).json({ error: "Device not found" });
     res.json(device);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch device" });
+    next(new Error("Failed to fetch device"));
   }
 };
 
-export const createDevice = async (req: Request, res: Response) => {
+export const createDevice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { status, ...data } = req.body;
     if (status && !Object.values(DeviceStatus).includes(status)) {
@@ -34,11 +46,15 @@ export const createDevice = async (req: Request, res: Response) => {
     const result = await deviceRepository.save(newDevice);
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create device" });
+    next(new Error("Failed to create device"));
   }
 };
 
-export const updateDevice = async (req: Request, res: Response) => {
+export const updateDevice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { status, ...data } = req.body;
     if (status && !Object.values(DeviceStatus).includes(status)) {
@@ -49,11 +65,15 @@ export const updateDevice = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Device not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to update device" });
+    next(new Error("Failed to update device"));
   }
 };
 
-export const deleteDevice = async (req: Request, res: Response) => {
+export const deleteDevice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const force = req.query.force === "true";
     if (!force) {
@@ -72,6 +92,6 @@ export const deleteDevice = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Device not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete device" });
+    next(new Error("Failed to delete device"));
   }
 };
