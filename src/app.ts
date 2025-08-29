@@ -32,7 +32,7 @@ app.use("/api/health-incidents", healthIncidentRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/alerts", alertRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 app.use(errorHandler);
 
