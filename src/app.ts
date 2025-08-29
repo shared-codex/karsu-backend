@@ -10,6 +10,7 @@ import healthIncidentRoutes from "./routes/healthIncident.routes";
 import roleRoutes from "./routes/role.routes";
 import permissionRoutes from "./routes/permission.routes";
 import alertRoutes from "./routes/alert.routes";
+import authRoutes from "./routes/auth.routes";
 import { swaggerServe, swaggerSetup } from "./swagger";
 
 const app = express();
@@ -28,5 +29,6 @@ app.use("/api/health-incidents", healthIncidentRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/alerts", alertRoutes);
+app.use("/api/auth", authRoutes);
 
 export default app;
