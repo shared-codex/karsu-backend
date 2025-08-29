@@ -1,19 +1,27 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../database";
 import { Worker } from "../entities/Worker";
 
 const workerRepository = AppDataSource.getRepository(Worker);
 
-export const getWorkers = async (req: Request, res: Response) => {
+export const getWorkers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const workers = await workerRepository.find();
     res.json(workers);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch workers" });
+    next(new Error("Failed to fetch workers"));
   }
 };
 
-export const getWorkerById = async (req: Request, res: Response) => {
+export const getWorkerById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -21,21 +29,29 @@ export const getWorkerById = async (req: Request, res: Response) => {
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     res.json(worker);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch worker" });
+    next(new Error("Failed to fetch worker"));
   }
 };
 
-export const createWorker = async (req: Request, res: Response) => {
+export const createWorker = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const newWorker = workerRepository.create(req.body);
     const result = await workerRepository.save(newWorker);
     res.status(201).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create worker" });
+    next(new Error("Failed to create worker"));
   }
 };
 
-export const updateWorker = async (req: Request, res: Response) => {
+export const updateWorker = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -43,11 +59,15 @@ export const updateWorker = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to update worker" });
+    next(new Error("Failed to update worker"));
   }
 };
 
-export const deleteWorker = async (req: Request, res: Response) => {
+export const deleteWorker = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const idParam = req.params.id;
     if (!Number.isInteger(+idParam)) return res.status(400).json({ error: "Invalid id" });
@@ -80,6 +100,6 @@ export const deleteWorker = async (req: Request, res: Response) => {
     if (result.affected === 0) return res.status(404).json({ error: "Worker not found" });
     return res.status(204).send();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete worker" });
+    next(new Error("Failed to delete worker"));
   }
 };
