@@ -82,10 +82,23 @@ export const refresh = async (req: Request, res: Response) => {
     const stored = await findTokenByJti(payload.jti);
     if (
       !stored ||
-      stored.revoked ||
       stored.expiresAt < new Date() ||
       stored.hashedToken !== hashToken(token)
     ) {
+      clearRefreshCookie(res);
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    if (stored.revoked && stored.replacedBy) {
+      await revokeUserTokens(payload.sub);
+      await bumpTokenVersion(payload.sub);
+      clearRefreshCookie(res);
+      return res
+        .status(401)
+        .json({ error: "Refresh token reuse detected. Please re-authenticate." });
+    }
+
+    if (stored.revoked) {
       clearRefreshCookie(res);
       return res.status(401).json({ error: "Unauthorized" });
     }
