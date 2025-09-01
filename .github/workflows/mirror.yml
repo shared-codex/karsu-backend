@@ -30,6 +30,14 @@ jobs:
         run: |
           git remote add mirror "https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/DRSCrafter/karsu-backend.git"
 
-      - name: Push all refs
-        run: git push --mirror --prune mirror
-        
+      # Optional: LFS (keep if you use Git LFS)
+      # - name: Install & fetch LFS
+      #   run: |
+      #     git lfs install
+      #     git lfs fetch --all
+      # - name: Push LFS objects
+      #   run: git lfs push --all mirror
+
+      - name: Push branches and tags (no remote-tracking refs)
+        run: |
+          git push --prune mirror 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
