@@ -30,7 +30,14 @@ jobs:
         run: |
           git remote add mirror "https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/DRSCrafter/karsu-backend.git"
 
-      # Optional: LFS (keep if you use Git LFS)
+      - name: Create local branches from origin/*
+        run: |
+          git fetch --all --tags
+          for b in $(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin); do
+            git branch -f "$b" "origin/$b"
+          done
+
+      # Optional LFS
       # - name: Install & fetch LFS
       #   run: |
       #     git lfs install
@@ -38,6 +45,6 @@ jobs:
       # - name: Push LFS objects
       #   run: git lfs push --all mirror
 
-      - name: Push branches and tags (no remote-tracking refs)
+      - name: Push branches and tags (prune deletions)
         run: |
           git push --prune mirror 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
