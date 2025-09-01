@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
+import type { StringValue } from "ms";
 import { config } from "../config";
 import { AccessTokenPayload, RefreshTokenPayload } from "../types/token";
 import { User } from "../entities/User";
 
 /**
- * Sign an access token with a 10 minute expiry.
+ * Sign an access token with the configured expiry.
  */
 export function signAccessToken(user: Pick<User, "user_id" | "token_version">): string {
   const payload: AccessTokenPayload = {
@@ -13,12 +14,12 @@ export function signAccessToken(user: Pick<User, "user_id" | "token_version">): 
   };
 
   return jwt.sign(payload, config.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
+    expiresIn: config.ACCESS_TOKEN_TTL as StringValue,
   });
 }
 
 /**
- * Sign a refresh token with a 7 day expiry.
+ * Sign a refresh token with the configured expiry.
  */
 export function signRefreshToken(
   user: Pick<User, "user_id" | "token_version">,
@@ -31,7 +32,7 @@ export function signRefreshToken(
   };
 
   return jwt.sign(payload, config.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
+    expiresIn: config.REFRESH_TOKEN_TTL as StringValue,
   });
 }
 

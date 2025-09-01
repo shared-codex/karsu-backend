@@ -1,7 +1,8 @@
 import { AppDataSource } from "../database";
 import { RefreshToken } from "../entities/RefreshToken";
 import { User } from "../entities/User";
-import { hashToken } from "../utils/token";
+import { config } from "../config";
+import { hashToken, ttlToMs } from "../utils/token";
 
 const refreshTokenRepository = AppDataSource.getRepository(RefreshToken);
 const userRepository = AppDataSource.getRepository(User);
@@ -18,7 +19,7 @@ export async function createRefreshToken(
     jti,
     hashedToken: hashToken(token),
     user,
-    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    expiresAt: new Date(Date.now() + ttlToMs(config.REFRESH_TOKEN_TTL)),
   });
 
   return refreshTokenRepository.save(refreshToken);
