@@ -8,8 +8,11 @@ import {
 } from "../controllers/alert.controller";
 import { AlertType } from "../entities/Alert";
 import { validateEnum } from "../middleware/enumValidation.middleware";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

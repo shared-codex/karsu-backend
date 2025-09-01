@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { getAssignments, getAssignmentById, createAssignment, updateAssignment, deleteAssignment } from "../controllers/assignment.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

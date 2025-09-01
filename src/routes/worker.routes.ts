@@ -6,8 +6,11 @@ import {
   updateWorker,
   deleteWorker,
 } from "../controllers/worker.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

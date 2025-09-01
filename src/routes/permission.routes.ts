@@ -6,8 +6,11 @@ import {
   updatePermission,
   deletePermission,
 } from "../controllers/permission.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

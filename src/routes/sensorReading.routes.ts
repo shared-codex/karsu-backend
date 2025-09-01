@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { getSensorReadings, createSensorReading } from "../controllers/sensorReading.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

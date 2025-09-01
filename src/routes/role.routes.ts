@@ -6,8 +6,11 @@ import {
   updateRole,
   deleteRole,
 } from "../controllers/role.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi
