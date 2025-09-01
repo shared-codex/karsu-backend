@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { getDevices, getDeviceById, createDevice, updateDevice, deleteDevice } from "../controllers/device.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

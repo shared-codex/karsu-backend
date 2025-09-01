@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { getShifts, getShiftById, createShift, updateShift, deleteShift } from "../controllers/shift.controller";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi

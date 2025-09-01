@@ -8,8 +8,11 @@ import {
 } from "../controllers/healthIncident.controller";
 import { SeverityLevel } from "../entities/WorkerHealthCondition";
 import { validateEnum } from "../middleware/enumValidation.middleware";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
+
+router.use(requireAuth);
 
 /**
  * @openapi
