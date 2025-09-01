@@ -60,13 +60,20 @@
    npm install
    ```
 3. **تنظیم متغیرهای محیطی**
-   فایل `.env` را با مقادیر پایگاه داده تکمیل کنید:
+   فایل `.env` را بر اساس `.env.example` تکمیل کنید. حداقل متغیرهای زیر باید مقداردهی شوند:
    ```env
    DB_HOST=localhost
    DB_PORT=5432
    DB_USERNAME=postgres
    DB_PASSWORD=رمزعبور
    DB_NAME=karsu
+
+   ACCESS_TOKEN_SECRET=secret
+   REFRESH_TOKEN_SECRET=secret
+   ACCESS_TOKEN_TTL=10m
+   REFRESH_TOKEN_TTL=7d
+   FRONTEND_ORIGIN=http://localhost:3000
+   NODE_ENV=development
    ```
 4. **ایجاد پایگاه داده**
    یک دیتابیس خالی با نامی که در `.env` مشخص کردید بسازید.
@@ -86,64 +93,64 @@
 - `npm run migration:generate --name=MigrationName` : ایجاد فایل مهاجرت جدید
 - `npm run migration:run` : اعمال مهاجرت‌ها روی پایگاه داده
 
-## Authentication and Token Management
+## احراز هویت و مدیریت توکن
 
-### Access vs. Refresh Flow
+### روند دسترسی و تازه‌سازی
 
 ```
-Client -- POST /auth/login --> Server
-Client <-- access token (JSON) + refresh token (httpOnly cookie) -- Server
-Client -- Authorization: Bearer <access token> --> Protected routes
-Access token expires
-Client -- POST /auth/refresh (with refresh cookie + X-CSRF header) --> Server
-Client <-- new access token + rotated refresh cookie -- Server
-Client -- POST /auth/logout --> Server (refresh token revoked, cookie cleared)
+کاربر -- POST /auth/login --> سرور
+کاربر <-- access token (JSON) + refresh token (کوکی HttpOnly) -- سرور
+کاربر -- Authorization: Bearer <access token> --> مسیرهای محافظت‌شده
+انقضای access token
+کاربر -- POST /auth/refresh (با کوکی refresh و هدر X-CSRF) --> سرور
+کاربر <-- access token جدید + کوکی refresh چرخیده -- سرور
+کاربر -- POST /auth/logout --> سرور (کوکی پاک و توکن‌ها باطل می‌شوند)
 ```
 
-### Storage and Rotation Logic
+### منطق ذخیره‌سازی و چرخش
 
-- Refresh tokens are hashed in the database and linked to the user with a unique `jti`.
-- Every refresh request rotates the token: a new refresh token is issued, the old one is marked revoked and `replacedBy` the new token.
-- A `token_version` on the user invalidates existing tokens on logout.
-- Access tokens are short lived and kept only in client memory.
+- توکن‌های تازه‌سازی به صورت هش در پایگاه داده ذخیره شده و با شناسهٔ یکتا `jti` به کاربر مرتبط می‌شوند.
+- هر درخواست تازه‌سازی باعث صدور توکن جدید می‌شود؛ توکن قبلی باطل شده و شناسهٔ آن در فیلد `replacedBy` ثبت می‌گردد.
+- مقدار `token_version` در مدل کاربر با خروج از حساب یا سوءاستفاده افزایش یافته و تمام توکن‌های قبلی را نامعتبر می‌کند.
+- توکن‌های دسترسی عمر کوتاهی دارند و فقط در حافظهٔ کلاینت نگه‌داری می‌شوند.
 
-### CORS and Cookie Setup
+### پیکربندی CORS و کوکی
 
-- `FRONTEND_ORIGIN` controls the allowed origin for CORS; cookies are sent with `credentials: true`.
-- Refresh token cookie: `httpOnly`, `sameSite: lax`, path `/auth/refresh`, and `secure` in production.
-- CSRF cookie: `httpOnly: false`, `sameSite: strict`, and `secure` in production.
-- In development (`NODE_ENV=development`), cookies are sent over HTTP (not `secure`). In production (`NODE_ENV=production`), set `FRONTEND_ORIGIN` to your HTTPS domain and cookies become `secure`.
+- متغیر `FRONTEND_ORIGIN` مبدأ مجاز برای CORS را تعیین می‌کند؛ کوکی‌ها با گزینهٔ `credentials: true` ارسال می‌شوند.
+- کوکی توکن تازه‌سازی: `httpOnly`، `sameSite: lax`، مسیر `/auth/refresh` و در محیط تولید `secure`.
+- کوکی CSRF: با `httpOnly: false`، `sameSite: strict` و در محیط تولید `secure`.
+- در حالت توسعه (`NODE_ENV=development`) کوکی‌ها بدون `secure` ارسال می‌شوند؛ در حالت تولید (`NODE_ENV=production`) باید `FRONTEND_ORIGIN` را به دامنهٔ HTTPS تنظیم کنید تا کوکی‌ها `secure` شوند.
 
-### Example `curl` Commands
+### نمونه دستورات `curl`
 
 ```bash
-# Register
+# ثبت‌نام
 curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"alice@example.com","password":"pass"}'
 
-# Login (saves refreshToken and csrfToken cookies)
+# ورود (کوکی‌های refreshToken و csrfToken ذخیره می‌شود)
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -c cookie.txt \
   -d '{"email":"alice@example.com","password":"pass"}'
 
-# Access protected route
+# دسترسی به مسیر محافظت‌شده
 curl http://localhost:3000/auth/me \
   -H "Authorization: Bearer <ACCESS_TOKEN>"
 
-# Refresh (rotates tokens)
+# تازه‌سازی توکن‌ها
 csrf=$(grep csrfToken cookie.txt | cut -f7)
 curl -X POST http://localhost:3000/auth/refresh \
   -H "X-CSRF: $csrf" \
   -b cookie.txt -c cookie.txt
 
-# Logout
+# خروج
 curl -X POST http://localhost:3000/auth/logout \
   -H "Authorization: Bearer <ACCESS_TOKEN>" \
   -b cookie.txt
 ```
 
-> Access tokens are never stored in cookies or localStorage.
+> توکن‌های دسترسی هرگز در کوکی یا localStorage ذخیره نمی‌شوند.
 
 این مخزن پایه‌ای برای توسعهٔ قابلیت‌های بیشتر سامانهٔ پایش سلامت کارگران است.
