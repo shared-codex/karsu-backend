@@ -9,11 +9,10 @@ export async function requireAuth(
   next: NextFunction
 ) {
   const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  const [scheme, token] = (authHeader ?? "").split(" ");
+  if (scheme?.toLowerCase() !== "bearer" || !token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-
-  const token = authHeader.slice(7).trim();
 
   try {
     const payload = verifyAccessToken(token);
