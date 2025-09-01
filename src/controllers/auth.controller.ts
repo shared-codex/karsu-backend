@@ -130,7 +130,7 @@ export const refresh = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  const user = req.user! as any;
+  const user = req.user!;
   await revokeUserTokens(user.user_id);
   await bumpTokenVersion(user.user_id);
   clearRefreshCookie(res);
@@ -138,7 +138,7 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const me = (req: Request, res: Response) => {
-  const user = req.user! as any;
+  const user = req.user!;
   return res.json({ id: user.user_id, email: user.email });
 };
 

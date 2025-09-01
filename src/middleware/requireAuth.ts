@@ -27,7 +27,7 @@ export async function requireAuth(
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    req.user = user as any;
+    req.user = user;
     next();
   } catch (err) {
     return res.status(401).json({ error: "Unauthorized" });
