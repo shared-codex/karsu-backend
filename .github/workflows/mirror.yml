@@ -1,0 +1,34 @@
+name: Mirror to destination
+
+on:
+  push:
+    branches:
+      - '**'         # mirror on any branch update
+    tags:
+      - '**'         # mirror on tag pushes
+  workflow_dispatch:  # allow manual runs
+  schedule:
+    - cron: '0 */12 * * *'   # safety sync twice a day
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need full history for --mirror
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add mirror remote
+        run: |
+          git remote add mirror "https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/DRSCrafter/karsu-backend.git"
+
+      - name: Push all refs (branches & tags)
+        run: |
+          # --mirror pushes refs/heads/* and refs/tags/* and updates deleted refs
+          git push --mirror --prune mirror
