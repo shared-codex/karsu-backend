@@ -1,0 +1,3505 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Karsu API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Worker": {
+        "type": "object",
+        "properties": {
+          "worker_id": {
+            "type": "integer"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "emergency_contact_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "emergency_contact_phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "emergency_contact_relation": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "worker_id",
+          "first_name",
+          "last_name",
+          "phone"
+        ]
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/DeviceStatus"
+          }
+        },
+        "required": [
+          "device_id",
+          "status"
+        ]
+      },
+      "DeviceStatus": {
+        "type": "string",
+        "enum": [
+          "Active",
+          "Available",
+          "Lost",
+          "Retired"
+        ]
+      },
+      "Alert": {
+        "type": "object",
+        "properties": {
+          "alert_id": {
+            "type": "integer"
+          },
+          "worker_id": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "alert_type": {
+            "$ref": "#/components/schemas/AlertType"
+          },
+          "metric_value": {
+            "type": "number"
+          },
+          "threshold_value": {
+            "type": "number"
+          },
+          "resolved_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the alert was resolved, if applicable."
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "alert_id",
+          "worker_id",
+          "timestamp",
+          "alert_type",
+          "metric_value",
+          "threshold_value",
+          "is_active"
+        ]
+      },
+      "AlertType": {
+        "type": "string",
+        "enum": [
+          "HIGH_PULSE",
+          "GAS_EXPOSURE",
+          "INACTIVITY"
+        ],
+        "description": "Type of alert. HIGH_PULSE indicates an elevated pulse rate, GAS_EXPOSURE signals detection of hazardous gases, and INACTIVITY reflects prolonged lack of movement."
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "role_id": {
+            "type": "integer"
+          },
+          "role_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "max_pulse": {
+            "type": "integer",
+            "nullable": true
+          },
+          "max_gas_exposure": {
+            "type": "number",
+            "nullable": true
+          },
+          "max_inactivity": {
+            "type": "integer",
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            }
+          }
+        },
+        "required": [
+          "role_id",
+          "role_name"
+        ]
+      },
+      "Permission": {
+        "type": "object",
+        "properties": {
+          "permission_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "permission_id",
+          "name"
+        ]
+      },
+      "WorkerDeviceAssignment": {
+        "type": "object",
+        "properties": {
+          "assignment_id": {
+            "type": "integer"
+          },
+          "worker_id": {
+            "type": "integer"
+          },
+          "device_id": {
+            "type": "string"
+          },
+          "assigned_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "unassigned_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "required": [
+          "assignment_id",
+          "worker_id",
+          "device_id",
+          "assigned_date"
+        ]
+      },
+      "ShiftAttendance": {
+        "type": "object",
+        "properties": {
+          "attendance_id": {
+            "type": "integer"
+          },
+          "worker_id": {
+            "type": "integer"
+          },
+          "shift_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "clock_in_time": {
+            "type": "string",
+            "format": "time"
+          },
+          "clock_out_time": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attendance_id",
+          "worker_id",
+          "shift_date",
+          "clock_in_time"
+        ]
+      },
+      "WorkerHealthCondition": {
+        "type": "object",
+        "properties": {
+          "condition_id": {
+            "type": "integer"
+          },
+          "worker_id": {
+            "type": "integer"
+          },
+          "condition_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/SeverityLevel"
+          },
+          "diagnosis_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ConditionStatus"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "condition_id",
+          "worker_id",
+          "condition_name",
+          "severity",
+          "diagnosis_date",
+          "status"
+        ]
+      },
+      "SeverityLevel": {
+        "type": "string",
+        "enum": [
+          "Mild",
+          "Moderate",
+          "Severe"
+        ]
+      },
+      "ConditionStatus": {
+        "type": "string",
+        "enum": [
+          "Active",
+          "Managed",
+          "Stable"
+        ]
+      },
+      "WorkerHealthIncident": {
+        "type": "object",
+        "properties": {
+          "incident_id": {
+            "type": "integer"
+          },
+          "worker_id": {
+            "type": "integer"
+          },
+          "incident_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/SeverityLevel"
+          },
+          "incident_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "resolution_date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "incident_id",
+          "worker_id",
+          "incident_name",
+          "description",
+          "severity",
+          "incident_date"
+        ]
+      },
+      "SensorReading": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "heart_rate": {
+            "type": "integer"
+          },
+          "gas_level": {
+            "type": "number"
+          },
+          "step_count": {
+            "type": "integer"
+          },
+          "stationary_time": {
+            "type": "integer"
+          },
+          "battery_level": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "device_id",
+          "timestamp",
+          "heart_rate",
+          "gas_level",
+          "step_count",
+          "stationary_time",
+          "battery_level"
+        ]
+      }
+    },
+    "examples": {
+      "Alert": {
+        "value": {
+          "alert_id": 1,
+          "worker_id": 1,
+          "timestamp": "2023-01-01T00:00:00Z",
+          "alert_type": "HIGH_PULSE",
+          "metric_value": 120,
+          "threshold_value": 100,
+          "resolved_timestamp": null,
+          "is_active": true
+        }
+      },
+      "Alerts": {
+        "value": [
+          {
+            "alert_id": 1,
+            "worker_id": 1,
+            "timestamp": "2023-01-01T00:00:00Z",
+            "alert_type": "HIGH_PULSE",
+            "metric_value": 120,
+            "threshold_value": 100,
+            "resolved_timestamp": null,
+            "is_active": true
+          }
+        ]
+      },
+      "Assignment": {
+        "value": {
+          "assignment_id": 1,
+          "worker_id": 1,
+          "device_id": "dev-1",
+          "assigned_date": "2023-01-01",
+          "unassigned_date": null
+        }
+      },
+      "Assignments": {
+        "value": [
+          {
+            "assignment_id": 1,
+            "worker_id": 1,
+            "device_id": "dev-1",
+            "assigned_date": "2023-01-01",
+            "unassigned_date": null
+          }
+        ]
+      },
+      "Device": {
+        "value": {
+          "device_id": "dev-1",
+          "model": "Model A",
+          "status": "Active"
+        }
+      },
+      "Devices": {
+        "value": [
+          {
+            "device_id": "dev-1",
+            "model": "Model A",
+            "status": "Active"
+          },
+          {
+            "device_id": "dev-2",
+            "model": "Model B",
+            "status": "Available"
+          }
+        ]
+      },
+      "HealthCondition": {
+        "value": {
+          "condition_id": 1,
+          "worker_id": 1,
+          "condition_name": "Hypertension",
+          "description": "High blood pressure",
+          "severity": "Moderate",
+          "diagnosis_date": "2023-01-01",
+          "status": "Active",
+          "notes": "Needs medication"
+        }
+      },
+      "HealthConditions": {
+        "value": [
+          {
+            "condition_id": 1,
+            "worker_id": 1,
+            "condition_name": "Hypertension",
+            "description": "High blood pressure",
+            "severity": "Moderate",
+            "diagnosis_date": "2023-01-01",
+            "status": "Active",
+            "notes": "Needs medication"
+          }
+        ]
+      },
+      "HealthIncident": {
+        "value": {
+          "incident_id": 1,
+          "worker_id": 1,
+          "incident_name": "Fainting",
+          "description": "Worker fainted",
+          "severity": "Moderate",
+          "incident_date": "2023-01-01",
+          "resolution_date": "2023-01-02",
+          "duration": 1,
+          "notes": "Observed by supervisor"
+        }
+      },
+      "HealthIncidents": {
+        "value": [
+          {
+            "incident_id": 1,
+            "worker_id": 1,
+            "incident_name": "Fainting",
+            "description": "Worker fainted",
+            "severity": "Moderate",
+            "incident_date": "2023-01-01",
+            "resolution_date": "2023-01-02",
+            "duration": 1,
+            "notes": "Observed by supervisor"
+          }
+        ]
+      },
+      "Role": {
+        "value": {
+          "role_id": 1,
+          "role_name": "Manager",
+          "description": "Site manager",
+          "max_pulse": 150,
+          "max_gas_exposure": 0.05,
+          "max_inactivity": 30,
+          "permissions": [
+            {
+              "permission_id": 1,
+              "name": "view_workers"
+            }
+          ]
+        }
+      },
+      "Roles": {
+        "value": [
+          {
+            "role_id": 1,
+            "role_name": "Manager",
+            "description": "Site manager",
+            "max_pulse": 150,
+            "max_gas_exposure": 0.05,
+            "max_inactivity": 30,
+            "permissions": [
+              {
+                "permission_id": 1,
+                "name": "view_workers"
+              }
+            ]
+          }
+        ]
+      },
+      "Permission": {
+        "value": {
+          "permission_id": 1,
+          "name": "view_workers",
+          "description": "Can view workers"
+        }
+      },
+      "Permissions": {
+        "value": [
+          {
+            "permission_id": 1,
+            "name": "view_workers",
+            "description": "Can view workers"
+          }
+        ]
+      },
+      "Worker": {
+        "value": {
+          "worker_id": 1,
+          "first_name": "John",
+          "last_name": "Doe",
+          "phone": "1234567890",
+          "email": "john@example.com",
+          "emergency_contact_name": "Jane Doe",
+          "emergency_contact_phone": "0987654321",
+          "emergency_contact_relation": "Spouse"
+        }
+      },
+      "Workers": {
+        "value": [
+          {
+            "worker_id": 1,
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone": "1234567890",
+            "email": "john@example.com",
+            "emergency_contact_name": "Jane Doe",
+            "emergency_contact_phone": "0987654321",
+            "emergency_contact_relation": "Spouse"
+          },
+          {
+            "worker_id": 2,
+            "first_name": "Alice",
+            "last_name": "Smith",
+            "phone": "5551234567",
+            "email": "alice@example.com",
+            "emergency_contact_name": "Bob Smith",
+            "emergency_contact_phone": "5557654321",
+            "emergency_contact_relation": "Brother"
+          }
+        ]
+      },
+      "ShiftAttendance": {
+        "value": {
+          "attendance_id": 1,
+          "worker_id": 1,
+          "shift_date": "2023-01-01",
+          "clock_in_time": "08:00:00",
+          "clock_out_time": "17:00:00"
+        }
+      },
+      "ShiftAttendances": {
+        "value": [
+          {
+            "attendance_id": 1,
+            "worker_id": 1,
+            "shift_date": "2023-01-01",
+            "clock_in_time": "08:00:00",
+            "clock_out_time": "17:00:00"
+          }
+        ]
+      },
+      "SensorReading": {
+        "value": {
+          "device_id": "dev-1",
+          "timestamp": "2023-01-01T00:00:00Z",
+          "heart_rate": 80,
+          "gas_level": 0.02,
+          "step_count": 120,
+          "stationary_time": 5,
+          "battery_level": 95
+        }
+      },
+      "SensorReadings": {
+        "value": [
+          {
+            "device_id": "dev-1",
+            "timestamp": "2023-01-01T00:00:00Z",
+            "heart_rate": 80,
+            "gas_level": 0.02,
+            "step_count": 120,
+            "stationary_time": 5,
+            "battery_level": 95
+          }
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/api/alerts": {
+      "get": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Get all alerts",
+        "responses": {
+          "200": {
+            "description": "List of alerts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Alert"
+                  }
+                },
+                "examples": {
+                  "Alerts": {
+                    "$ref": "#/components/examples/Alerts"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alerts not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Alerts not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Create an alert",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Alert"
+              },
+              "examples": {
+                "Alert": {
+                  "$ref": "#/components/examples/Alert"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alert"
+                },
+                "examples": {
+                  "Alert": {
+                    "$ref": "#/components/examples/Alert"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alerts/{id}": {
+      "get": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Get alert by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alert"
+                },
+                "examples": {
+                  "Alert": {
+                    "$ref": "#/components/examples/Alert"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Alert not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Update an alert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Alert"
+              },
+              "examples": {
+                "Alert": {
+                  "$ref": "#/components/examples/Alert"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Alert updated"
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Alert not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Delete an alert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Alert deleted"
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Alert not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assignments": {
+      "get": {
+        "tags": [
+          "Assignments"
+        ],
+        "summary": "Get all assignments",
+        "responses": {
+          "200": {
+            "description": "List of assignments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkerDeviceAssignment"
+                  }
+                },
+                "examples": {
+                  "Assignments": {
+                    "$ref": "#/components/examples/Assignments"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Assignments not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Assignments not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assignments"
+        ],
+        "summary": "Create an assignment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "worker_id": {
+                    "type": "integer"
+                  },
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "assigned_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "unassigned_date": {
+                    "type": "string",
+                    "format": "date",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "worker_id",
+                  "device_id",
+                  "assigned_date"
+                ]
+              },
+              "examples": {
+                "Assignment": {
+                  "$ref": "#/components/examples/Assignment"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Assignment created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerDeviceAssignment"
+                },
+                "examples": {
+                  "Assignment": {
+                    "$ref": "#/components/examples/Assignment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Assignment not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Assignment not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assignments/{id}": {
+      "get": {
+        "tags": [
+          "Assignments"
+        ],
+        "summary": "Get assignment by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assignment retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerDeviceAssignment"
+                },
+                "examples": {
+                  "Assignment": {
+                    "$ref": "#/components/examples/Assignment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Assignment not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Assignment not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Assignments"
+        ],
+        "summary": "Update an assignment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "worker_id": {
+                    "type": "integer"
+                  },
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "assigned_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "unassigned_date": {
+                    "type": "string",
+                    "format": "date",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "worker_id",
+                  "device_id",
+                  "assigned_date"
+                ]
+              },
+              "examples": {
+                "Assignment": {
+                  "$ref": "#/components/examples/Assignment"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Assignment updated"
+          },
+          "404": {
+            "description": "Assignment not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Assignment not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Assignments"
+        ],
+        "summary": "Delete an assignment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Assignment deleted"
+          },
+          "404": {
+            "description": "Assignment not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Assignment not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Register": {
+                  "value": {
+                    "email": "user@example.com",
+                    "password": "strongPassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User": {
+                    "value": {
+                      "id": 1,
+                      "email": "user@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to register",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Unable to register"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Log in a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Login": {
+                  "value": {
+                    "email": "user@example.com",
+                    "password": "strongPassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "accessToken": "access.token.value",
+                      "user": {
+                        "id": 1,
+                        "email": "user@example.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid credentials"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many login attempts",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Too many login attempts, please try again later."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh access token",
+        "responses": {
+          "200": {
+            "description": "New access token issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Token": {
+                    "value": {
+                      "accessToken": "new.access.token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many token requests",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Too many token requests, please try again later."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Log out the current user",
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "Success": {
+                    "value": {
+                      "ok": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "Current user details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "User": {
+                    "value": {
+                      "id": 1,
+                      "email": "user@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get all devices",
+        "responses": {
+          "200": {
+            "description": "List of devices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Device"
+                  }
+                },
+                "examples": {
+                  "Devices": {
+                    "$ref": "#/components/examples/Devices"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Devices not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Devices not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Create a device",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Active",
+                      "Available",
+                      "Lost",
+                      "Retired"
+                    ]
+                  }
+                },
+                "required": [
+                  "device_id",
+                  "status"
+                ]
+              },
+              "examples": {
+                "Device": {
+                  "$ref": "#/components/examples/Device"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                },
+                "examples": {
+                  "Device": {
+                    "$ref": "#/components/examples/Device"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/devices/{id}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get device by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                },
+                "examples": {
+                  "Device": {
+                    "$ref": "#/components/examples/Device"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Device not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Update a device",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Active",
+                      "Available",
+                      "Lost",
+                      "Retired"
+                    ]
+                  }
+                },
+                "required": [
+                  "device_id",
+                  "status"
+                ]
+              },
+              "examples": {
+                "Device": {
+                  "$ref": "#/components/examples/Device"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Device updated"
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Device not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Delete a device",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Device deleted"
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Device not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health-conditions": {
+      "get": {
+        "tags": [
+          "Health Conditions"
+        ],
+        "summary": "Get all health conditions",
+        "responses": {
+          "200": {
+            "description": "List of health conditions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkerHealthCondition"
+                  }
+                },
+                "examples": {
+                  "HealthConditions": {
+                    "$ref": "#/components/examples/HealthConditions"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Health conditions not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health conditions not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Health Conditions"
+        ],
+        "summary": "Create a health condition",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerHealthCondition"
+              },
+              "examples": {
+                "HealthCondition": {
+                  "$ref": "#/components/examples/HealthCondition"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Health condition created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerHealthCondition"
+                },
+                "examples": {
+                  "HealthCondition": {
+                    "$ref": "#/components/examples/HealthCondition"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health-conditions/{id}": {
+      "get": {
+        "tags": [
+          "Health Conditions"
+        ],
+        "summary": "Get a health condition by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Health condition retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerHealthCondition"
+                },
+                "examples": {
+                  "HealthCondition": {
+                    "$ref": "#/components/examples/HealthCondition"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Health condition not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health condition not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Health Conditions"
+        ],
+        "summary": "Update a health condition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerHealthCondition"
+              },
+              "examples": {
+                "HealthCondition": {
+                  "$ref": "#/components/examples/HealthCondition"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Health condition updated"
+          },
+          "404": {
+            "description": "Health condition not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health condition not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Health Conditions"
+        ],
+        "summary": "Delete a health condition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Health condition deleted"
+          },
+          "404": {
+            "description": "Health condition not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health condition not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health-incidents": {
+      "get": {
+        "tags": [
+          "Health Incidents"
+        ],
+        "summary": "Get all health incidents",
+        "responses": {
+          "200": {
+            "description": "List of health incidents (resolution_date and duration may be null)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkerHealthIncident"
+                  }
+                },
+                "examples": {
+                  "HealthIncidents": {
+                    "$ref": "#/components/examples/HealthIncidents"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Health incidents not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health incidents not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Health Incidents"
+        ],
+        "summary": "Create a health incident",
+        "requestBody": {
+          "required": true,
+          "description": "Fields resolution_date and duration are nullable",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerHealthIncident"
+              },
+              "examples": {
+                "HealthIncident": {
+                  "$ref": "#/components/examples/HealthIncident"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Health incident created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerHealthIncident"
+                },
+                "examples": {
+                  "HealthIncident": {
+                    "$ref": "#/components/examples/HealthIncident"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health-incidents/{id}": {
+      "get": {
+        "tags": [
+          "Health Incidents"
+        ],
+        "summary": "Get a health incident by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Health incident retrieved (resolution_date and duration may be null)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerHealthIncident"
+                },
+                "examples": {
+                  "HealthIncident": {
+                    "$ref": "#/components/examples/HealthIncident"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Health incident not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health incident not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Health Incidents"
+        ],
+        "summary": "Update a health incident",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Fields resolution_date and duration are nullable",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerHealthIncident"
+              },
+              "examples": {
+                "HealthIncident": {
+                  "$ref": "#/components/examples/HealthIncident"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Health incident updated"
+          },
+          "404": {
+            "description": "Health incident not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health incident not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Health Incidents"
+        ],
+        "summary": "Delete a health incident",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Health incident deleted"
+          },
+          "404": {
+            "description": "Health incident not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Health incident not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/permissions": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Get all permissions",
+        "responses": {
+          "200": {
+            "description": "List of permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Permission"
+                  }
+                },
+                "examples": {
+                  "Permissions": {
+                    "$ref": "#/components/examples/Permissions"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Create a permission",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              },
+              "examples": {
+                "Permission": {
+                  "$ref": "#/components/examples/Permission"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Permission created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                },
+                "examples": {
+                  "Permission": {
+                    "$ref": "#/components/examples/Permission"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/permissions/{id}": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Get permission by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permission"
+                },
+                "examples": {
+                  "Permission": {
+                    "$ref": "#/components/examples/Permission"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permission not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Update a permission",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              },
+              "examples": {
+                "Permission": {
+                  "$ref": "#/components/examples/Permission"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Permission updated"
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permission not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Delete a permission",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission deleted"
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permission not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Get all roles with their permissions",
+        "responses": {
+          "200": {
+            "description": "List of roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Role"
+                  }
+                },
+                "examples": {
+                  "Roles": {
+                    "$ref": "#/components/examples/Roles"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Create a role with permissions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              },
+              "examples": {
+                "Role": {
+                  "$ref": "#/components/examples/Role"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Role created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                },
+                "examples": {
+                  "Role": {
+                    "$ref": "#/components/examples/Role"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Get role by ID with permissions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                },
+                "examples": {
+                  "Role": {
+                    "$ref": "#/components/examples/Role"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Role not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Role not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Update a role and its permissions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              },
+              "examples": {
+                "Role": {
+                  "$ref": "#/components/examples/Role"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Role updated"
+          },
+          "404": {
+            "description": "Role not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Role not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Delete a role",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role deleted"
+          },
+          "404": {
+            "description": "Role not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Role not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sensor-readings": {
+      "get": {
+        "tags": [
+          "Sensor Readings"
+        ],
+        "summary": "Get sensor readings",
+        "description": "Retrieve sensor readings. Optionally filter by device ID and time range.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "deviceId",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Filter readings by device ID"
+          },
+          {
+            "in": "query",
+            "name": "fromTimestamp",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "description": "Start of ISO 8601 timestamp range"
+          },
+          {
+            "in": "query",
+            "name": "toTimestamp",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "description": "End of ISO 8601 timestamp range"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of sensor readings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SensorReading"
+                  }
+                },
+                "examples": {
+                  "SensorReadings": {
+                    "$ref": "#/components/examples/SensorReadings"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to fetch sensor readings",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Failed to fetch sensor readings"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Sensor Readings"
+        ],
+        "summary": "Create a sensor reading",
+        "description": "Timestamp must be an ISO 8601 string.\nNumeric fields heart_rate, step_count, stationary_time, and battery_level are integers.\ngas_level is a decimal number.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SensorReading"
+              },
+              "examples": {
+                "SensorReading": {
+                  "$ref": "#/components/examples/SensorReading"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sensor reading created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SensorReading"
+                },
+                "examples": {
+                  "SensorReading": {
+                    "$ref": "#/components/examples/SensorReading"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create sensor reading",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Failed to create sensor reading"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shifts": {
+      "get": {
+        "tags": [
+          "Shift Attendance"
+        ],
+        "summary": "Get all shift attendance records",
+        "responses": {
+          "200": {
+            "description": "List of shift attendance records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShiftAttendance"
+                  }
+                },
+                "examples": {
+                  "ShiftAttendances": {
+                    "$ref": "#/components/examples/ShiftAttendances"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Shift attendance not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Shift attendance not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Shift Attendance"
+        ],
+        "summary": "Create a shift attendance record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "worker_id": {
+                    "type": "integer"
+                  },
+                  "shift_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "clock_in_time": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "clock_out_time": {
+                    "type": "string",
+                    "format": "time",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "worker_id",
+                  "shift_date",
+                  "clock_in_time"
+                ]
+              },
+              "examples": {
+                "ShiftAttendance": {
+                  "$ref": "#/components/examples/ShiftAttendance"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Shift attendance created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShiftAttendance"
+                },
+                "examples": {
+                  "ShiftAttendance": {
+                    "$ref": "#/components/examples/ShiftAttendance"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Shift attendance not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Shift attendance not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shifts/{id}": {
+      "get": {
+        "tags": [
+          "Shift Attendance"
+        ],
+        "summary": "Get shift attendance by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shift attendance retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShiftAttendance"
+                },
+                "examples": {
+                  "ShiftAttendance": {
+                    "$ref": "#/components/examples/ShiftAttendance"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Shift attendance not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Shift attendance not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Shift Attendance"
+        ],
+        "summary": "Update a shift attendance record",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "worker_id": {
+                    "type": "integer"
+                  },
+                  "shift_date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "clock_in_time": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "clock_out_time": {
+                    "type": "string",
+                    "format": "time",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "worker_id",
+                  "shift_date",
+                  "clock_in_time"
+                ]
+              },
+              "examples": {
+                "ShiftAttendance": {
+                  "$ref": "#/components/examples/ShiftAttendance"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Shift attendance updated"
+          },
+          "404": {
+            "description": "Shift attendance not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Shift attendance not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Shift Attendance"
+        ],
+        "summary": "Delete a shift attendance record",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Shift attendance deleted"
+          },
+          "404": {
+            "description": "Shift attendance not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Shift attendance not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workers": {
+      "get": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Get all workers",
+        "responses": {
+          "200": {
+            "description": "List of workers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Worker"
+                  }
+                },
+                "examples": {
+                  "Workers": {
+                    "$ref": "#/components/examples/Workers"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workers not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Workers not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Create a worker",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Worker"
+              },
+              "examples": {
+                "Worker": {
+                  "$ref": "#/components/examples/Worker"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Worker created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Worker"
+                },
+                "examples": {
+                  "Worker": {
+                    "$ref": "#/components/examples/Worker"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Worker not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Worker not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workers/{id}": {
+      "get": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Get worker by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Worker retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Worker"
+                },
+                "examples": {
+                  "Worker": {
+                    "$ref": "#/components/examples/Worker"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Worker not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Worker not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Update a worker",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Worker"
+              },
+              "examples": {
+                "Worker": {
+                  "$ref": "#/components/examples/Worker"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Worker updated"
+          },
+          "404": {
+            "description": "Worker not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Worker not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Delete a worker",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Worker deleted"
+          },
+          "404": {
+            "description": "Worker not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Worker not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
