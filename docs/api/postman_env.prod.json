@@ -1,0 +1,27 @@
+{
+  "id": "8dc7bbb0-a650-4f90-b7fa-cced6839d5fb",
+  "name": "Production",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.example.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "bearerToken",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "csrfToken",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2025-09-02T16:58:40Z",
+  "_postman_exported_using": "Postman/10.17.7"
+}
