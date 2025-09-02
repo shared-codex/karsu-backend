@@ -1,0 +1,5116 @@
+{
+  "info": {
+    "name": "karsu-backend API",
+    "_postman_id": "89f80898-6030-4918-b6a3-fade01f15748",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.request.headers.has('Authorization') && pm.environment.get('bearerToken')) {",
+          "  pm.request.headers.add({ key: 'Authorization', value: `Bearer ${pm.environment.get('bearerToken')}` });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new user (no auth required)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                },
+                "description": "Register a new user (no auth required)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"id\": 1,\n  \"email\": \"user@example.com\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                },
+                "description": "Register a new user (no auth required)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 400,
+              "body": "{\n  \"error\": \"Unable to register\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /auth/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Get current user details (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                },
+                "description": "Get current user details (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": 1,\n  \"email\": \"user@example.com\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                },
+                "description": "Get current user details (requires auth)"
+              },
+              "status": "Error",
+              "code": 401,
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Workers",
+      "item": [
+        {
+          "name": "GET /api/workers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/workers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workers"
+              ]
+            },
+            "description": "List all workers (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers"
+                  ]
+                },
+                "description": "List all workers (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"phone\": \"5551234567\",\n    \"email\": \"john.doe@example.com\",\n    \"emergency_contact_name\": \"Jane Doe\",\n    \"emergency_contact_phone\": \"5559876543\",\n    \"emergency_contact_relation\": \"Spouse\",\n    \"worker_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers"
+                  ]
+                },
+                "description": "List all workers (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Failed to fetch workers\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/workers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/workers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workers"
+              ]
+            },
+            "description": "Create a new worker (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers"
+                  ]
+                },
+                "description": "Create a new worker (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\",\n  \"worker_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers"
+                  ]
+                },
+                "description": "Create a new worker (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 400,
+              "body": "{\n  \"error\": \"Invalid data\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/workers/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/workers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workers",
+                "1"
+              ]
+            },
+            "description": "Get worker by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Get worker by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\",\n  \"worker_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Get worker by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"error\": \"Worker not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/workers/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/workers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workers",
+                "1"
+              ]
+            },
+            "description": "Update worker information (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Update worker information (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Update worker information (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"5551234567\",\n  \"email\": \"john.doe@example.com\",\n  \"emergency_contact_name\": \"Jane Doe\",\n  \"emergency_contact_phone\": \"5559876543\",\n  \"emergency_contact_relation\": \"Spouse\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"error\": \"Worker not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/workers/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/workers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workers",
+                "1"
+              ]
+            },
+            "description": "Delete worker (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Delete worker (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/workers/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "workers",
+                    "1"
+                  ]
+                },
+                "description": "Delete worker (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"error\": \"Worker not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "GET /api/devices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/devices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devices"
+              ]
+            },
+            "description": "List all devices (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices"
+                  ]
+                },
+                "description": "List all devices (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"device_id\": \"dev-1001\",\n    \"model\": \"Model X\",\n    \"status\": \"Available\"\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices"
+                  ]
+                },
+                "description": "List all devices (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/devices",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/devices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devices"
+              ]
+            },
+            "description": "Create a device (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices"
+                  ]
+                },
+                "description": "Create a device (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices"
+                  ]
+                },
+                "description": "Create a device (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 400,
+              "body": "{\n  \"message\": \"Invalid input\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/devices/dev-1001",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/devices/dev-1001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devices",
+                "dev-1001"
+              ]
+            },
+            "description": "Get device by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Get device by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Get device by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Device not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/devices/dev-1001",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/devices/dev-1001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devices",
+                "dev-1001"
+              ]
+            },
+            "description": "Update device (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Update device (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Update device (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"model\": \"Model X\",\n  \"status\": \"Available\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Device not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/devices/dev-1001",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/devices/dev-1001",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devices",
+                "dev-1001"
+              ]
+            },
+            "description": "Delete device (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Delete device (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/devices/dev-1001",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "devices",
+                    "dev-1001"
+                  ]
+                },
+                "description": "Delete device (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Device not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Assignments",
+      "item": [
+        {
+          "name": "GET /api/assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assignments"
+              ]
+            },
+            "description": "List device assignments (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments"
+                  ]
+                },
+                "description": "List device assignments (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"worker_id\": 1,\n    \"device_id\": \"dev-1001\",\n    \"assigned_date\": \"2024-01-01\",\n    \"unassigned_date\": null,\n    \"assignment_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments"
+                  ]
+                },
+                "description": "List device assignments (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/assignments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assignments"
+              ]
+            },
+            "description": "Create device assignment (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments"
+                  ]
+                },
+                "description": "Create device assignment (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null,\n  \"assignment_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments"
+                  ]
+                },
+                "description": "Create device assignment (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+                }
+              },
+              "status": "Error",
+              "code": 400,
+              "body": "{\n  \"error\": \"Invalid data\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/assignments/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assignments",
+                "1"
+              ]
+            },
+            "description": "Get assignment by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Get assignment by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null,\n  \"assignment_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Get assignment by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Assignment not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/assignments/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assignments",
+                "1"
+              ]
+            },
+            "description": "Update assignment (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Update assignment (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Update assignment (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"device_id\": \"dev-1001\",\n  \"assigned_date\": \"2024-01-01\",\n  \"unassigned_date\": null\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Assignment not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/assignments/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "assignments",
+                "1"
+              ]
+            },
+            "description": "Delete assignment (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Delete assignment (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/assignments/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "assignments",
+                    "1"
+                  ]
+                },
+                "description": "Delete assignment (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Assignment not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shifts",
+      "item": [
+        {
+          "name": "GET /api/shifts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shifts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shifts"
+              ]
+            },
+            "description": "List shift attendance (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts"
+                  ]
+                },
+                "description": "List shift attendance (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"worker_id\": 1,\n    \"shift_date\": \"2024-01-01\",\n    \"clock_in_time\": \"08:00:00\",\n    \"clock_out_time\": \"17:00:00\",\n    \"attendance_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts"
+                  ]
+                },
+                "description": "List shift attendance (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/shifts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shifts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shifts"
+              ]
+            },
+            "description": "Create shift attendance (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts"
+                  ]
+                },
+                "description": "Create shift attendance (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\",\n  \"attendance_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts"
+                  ]
+                },
+                "description": "Create shift attendance (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 400,
+              "body": "{\n  \"error\": \"Invalid data\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/shifts/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shifts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shifts",
+                "1"
+              ]
+            },
+            "description": "Get shift attendance by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Get shift attendance by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\",\n  \"attendance_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Get shift attendance by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Shift attendance not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/shifts/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shifts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shifts",
+                "1"
+              ]
+            },
+            "description": "Update shift attendance (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Update shift attendance (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Update shift attendance (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"shift_date\": \"2024-01-01\",\n  \"clock_in_time\": \"08:00:00\",\n  \"clock_out_time\": \"17:00:00\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Shift attendance not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/shifts/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shifts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shifts",
+                "1"
+              ]
+            },
+            "description": "Delete shift attendance (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Delete shift attendance (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/shifts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "shifts",
+                    "1"
+                  ]
+                },
+                "description": "Delete shift attendance (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Shift attendance not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sensor Readings",
+      "item": [
+        {
+          "name": "GET /api/sensor-readings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sensor-readings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sensor-readings"
+              ]
+            },
+            "description": "Retrieve sensor readings (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/sensor-readings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "sensor-readings"
+                  ]
+                },
+                "description": "Retrieve sensor readings (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"device_id\": \"dev-1001\",\n    \"timestamp\": \"2024-01-01T08:00:00Z\",\n    \"heart_rate\": 72,\n    \"gas_level\": 0.02,\n    \"step_count\": 1000,\n    \"stationary_time\": 300,\n    \"battery_level\": 95\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/sensor-readings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "sensor-readings"
+                  ]
+                },
+                "description": "Retrieve sensor readings (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Failed to fetch sensor readings\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/sensor-readings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sensor-readings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sensor-readings"
+              ]
+            },
+            "description": "Create sensor reading (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"timestamp\": \"2024-01-01T08:00:00Z\",\n  \"heart_rate\": 72,\n  \"gas_level\": 0.02,\n  \"step_count\": 1000,\n  \"stationary_time\": 300,\n  \"battery_level\": 95\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/sensor-readings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "sensor-readings"
+                  ]
+                },
+                "description": "Create sensor reading (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"timestamp\": \"2024-01-01T08:00:00Z\",\n  \"heart_rate\": 72,\n  \"gas_level\": 0.02,\n  \"step_count\": 1000,\n  \"stationary_time\": 300,\n  \"battery_level\": 95\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"device_id\": \"dev-1001\",\n  \"timestamp\": \"2024-01-01T08:00:00Z\",\n  \"heart_rate\": 72,\n  \"gas_level\": 0.02,\n  \"step_count\": 1000,\n  \"stationary_time\": 300,\n  \"battery_level\": 95\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/sensor-readings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "sensor-readings"
+                  ]
+                },
+                "description": "Create sensor reading (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"device_id\": \"dev-1001\",\n  \"timestamp\": \"2024-01-01T08:00:00Z\",\n  \"heart_rate\": 72,\n  \"gas_level\": 0.02,\n  \"step_count\": 1000,\n  \"stationary_time\": 300,\n  \"battery_level\": 95\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Failed to create sensor reading\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Conditions",
+      "item": [
+        {
+          "name": "GET /api/health-conditions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-conditions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-conditions"
+              ]
+            },
+            "description": "List health conditions (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions"
+                  ]
+                },
+                "description": "List health conditions (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"worker_id\": 1,\n    \"condition_name\": \"Hypertension\",\n    \"description\": \"High blood pressure\",\n    \"severity\": \"Moderate\",\n    \"diagnosis_date\": \"2023-12-01\",\n    \"status\": \"Active\",\n    \"notes\": \"Monitor regularly\",\n    \"condition_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions"
+                  ]
+                },
+                "description": "List health conditions (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/health-conditions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-conditions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-conditions"
+              ]
+            },
+            "description": "Create health condition (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions"
+                  ]
+                },
+                "description": "Create health condition (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\",\n  \"condition_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions"
+                  ]
+                },
+                "description": "Create health condition (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/health-conditions/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-conditions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-conditions",
+                "1"
+              ]
+            },
+            "description": "Get health condition by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Get health condition by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\",\n  \"condition_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Get health condition by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health condition not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/health-conditions/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-conditions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-conditions",
+                "1"
+              ]
+            },
+            "description": "Update health condition (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Update health condition (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Update health condition (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"condition_name\": \"Hypertension\",\n  \"description\": \"High blood pressure\",\n  \"severity\": \"Moderate\",\n  \"diagnosis_date\": \"2023-12-01\",\n  \"status\": \"Active\",\n  \"notes\": \"Monitor regularly\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health condition not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/health-conditions/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-conditions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-conditions",
+                "1"
+              ]
+            },
+            "description": "Delete health condition (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Delete health condition (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-conditions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-conditions",
+                    "1"
+                  ]
+                },
+                "description": "Delete health condition (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health condition not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Incidents",
+      "item": [
+        {
+          "name": "GET /api/health-incidents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-incidents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-incidents"
+              ]
+            },
+            "description": "List health incidents (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents"
+                  ]
+                },
+                "description": "List health incidents (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"worker_id\": 1,\n    \"incident_name\": \"Fainting\",\n    \"description\": \"Worker fainted due to heat\",\n    \"severity\": \"Severe\",\n    \"incident_date\": \"2024-01-05\",\n    \"resolution_date\": null,\n    \"duration\": null,\n    \"notes\": \"Needs follow-up\",\n    \"incident_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents"
+                  ]
+                },
+                "description": "List health incidents (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/health-incidents",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-incidents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-incidents"
+              ]
+            },
+            "description": "Create health incident (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents"
+                  ]
+                },
+                "description": "Create health incident (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\",\n  \"incident_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents"
+                  ]
+                },
+                "description": "Create health incident (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/health-incidents/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-incidents/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-incidents",
+                "1"
+              ]
+            },
+            "description": "Get health incident by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Get health incident by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\",\n  \"incident_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Get health incident by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health incident not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/health-incidents/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-incidents/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-incidents",
+                "1"
+              ]
+            },
+            "description": "Update health incident (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Update health incident (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Update health incident (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"incident_name\": \"Fainting\",\n  \"description\": \"Worker fainted due to heat\",\n  \"severity\": \"Severe\",\n  \"incident_date\": \"2024-01-05\",\n  \"resolution_date\": null,\n  \"duration\": null,\n  \"notes\": \"Needs follow-up\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health incident not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/health-incidents/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/health-incidents/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health-incidents",
+                "1"
+              ]
+            },
+            "description": "Delete health incident (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Delete health incident (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/health-incidents/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "health-incidents",
+                    "1"
+                  ]
+                },
+                "description": "Delete health incident (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Health incident not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Permissions",
+      "item": [
+        {
+          "name": "GET /api/permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/permissions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "permissions"
+              ]
+            },
+            "description": "List permissions (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions"
+                  ]
+                },
+                "description": "List permissions (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"name\": \"READ_WORKERS\",\n    \"description\": \"Allows reading worker data\",\n    \"permission_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions"
+                  ]
+                },
+                "description": "List permissions (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/permissions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/permissions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "permissions"
+              ]
+            },
+            "description": "Create permission (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions"
+                  ]
+                },
+                "description": "Create permission (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\",\n  \"permission_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions"
+                  ]
+                },
+                "description": "Create permission (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/permissions/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "permissions",
+                "1"
+              ]
+            },
+            "description": "Get permission by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Get permission by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\",\n  \"permission_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Get permission by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Permission not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/permissions/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "permissions",
+                "1"
+              ]
+            },
+            "description": "Update permission (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Update permission (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Update permission (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"READ_WORKERS\",\n  \"description\": \"Allows reading worker data\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Permission not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/permissions/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/permissions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "permissions",
+                "1"
+              ]
+            },
+            "description": "Delete permission (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Delete permission (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/permissions/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "permissions",
+                    "1"
+                  ]
+                },
+                "description": "Delete permission (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Permission not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "GET /api/roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "List roles (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles"
+                  ]
+                },
+                "description": "List roles (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"role_name\": \"Supervisor\",\n    \"description\": \"Supervises workers\",\n    \"max_pulse\": 180,\n    \"max_gas_exposure\": 0.1,\n    \"max_inactivity\": 600,\n    \"permissions\": [\n      1,\n      2\n    ],\n    \"__note\": \"permissions array assumes IDs\",\n    \"role_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles"
+                  ]
+                },
+                "description": "List roles (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/roles",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "Create role (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles"
+                  ]
+                },
+                "description": "Create role (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\",\n  \"role_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles"
+                  ]
+                },
+                "description": "Create role (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/roles/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ]
+            },
+            "description": "Get role by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Get role by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\",\n  \"role_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Get role by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Role not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/roles/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ]
+            },
+            "description": "Update role (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Update role (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Update role (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role_name\": \"Supervisor\",\n  \"description\": \"Supervises workers\",\n  \"max_pulse\": 180,\n  \"max_gas_exposure\": 0.1,\n  \"max_inactivity\": 600,\n  \"permissions\": [\n    1,\n    2\n  ],\n  \"__note\": \"permissions array assumes IDs\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Role not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/roles/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ]
+            },
+            "description": "Delete role (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Delete role (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/roles/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "roles",
+                    "1"
+                  ]
+                },
+                "description": "Delete role (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Role not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "GET /api/alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alerts"
+              ]
+            },
+            "description": "List alerts (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts"
+                  ]
+                },
+                "description": "List alerts (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"worker_id\": 1,\n    \"timestamp\": \"2024-01-05T08:00:00Z\",\n    \"alert_type\": \"HIGH_PULSE\",\n    \"metric_value\": 190,\n    \"threshold_value\": 170,\n    \"resolved_timestamp\": null,\n    \"is_active\": true,\n    \"alert_id\": 1\n  }\n]",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts"
+                  ]
+                },
+                "description": "List alerts (requires auth)"
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "POST /api/alerts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alerts"
+              ]
+            },
+            "description": "Create alert (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts"
+                  ]
+                },
+                "description": "Create alert (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+                }
+              },
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true,\n  \"alert_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts"
+                  ]
+                },
+                "description": "Create alert (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+                }
+              },
+              "status": "Error",
+              "code": 500,
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "GET /api/alerts/1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alerts",
+                "1"
+              ]
+            },
+            "description": "Get alert by ID (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Get alert by ID (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true,\n  \"alert_id\": 1\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Get alert by ID (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Alert not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PUT /api/alerts/1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alerts",
+                "1"
+              ]
+            },
+            "description": "Update alert (requires auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Update alert (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+                }
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Update alert (requires auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"worker_id\": 1,\n  \"timestamp\": \"2024-01-05T08:00:00Z\",\n  \"alert_type\": \"HIGH_PULSE\",\n  \"metric_value\": 190,\n  \"threshold_value\": 170,\n  \"resolved_timestamp\": null,\n  \"is_active\": true\n}"
+                }
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Alert not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DELETE /api/alerts/1",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alerts",
+                "1"
+              ]
+            },
+            "description": "Delete alert (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Delete alert (requires auth)"
+              },
+              "status": "OK",
+              "code": 204,
+              "body": "{}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/alerts/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "alerts",
+                    "1"
+                  ]
+                },
+                "description": "Delete alert (requires auth)"
+              },
+              "status": "Error",
+              "code": 404,
+              "body": "{\n  \"message\": \"Alert not found\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Auth Helpers",
+      "item": [
+        {
+          "name": "POST /auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login and receive access token (no auth)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Login and receive access token (no auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"accessToken\": \"{{bearerToken}}\",\n  \"user\": {\n    \"id\": 1,\n    \"email\": \"user@example.com\"\n  }\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Login and receive access token (no auth)",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"strongPassword123\"\n}"
+                }
+              },
+              "status": "Error",
+              "code": 401,
+              "body": "{\n  \"error\": \"Invalid credentials\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Set bearerToken', function () {",
+                  "  var jsonData = pm.response.json();",
+                  "  if (jsonData.accessToken) {",
+                  "    pm.environment.set('bearerToken', jsonData.accessToken);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/refresh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrfToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            },
+            "description": "Refresh access token using cookie (no auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrfToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/refresh",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "refresh"
+                  ]
+                },
+                "description": "Refresh access token using cookie (no auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"accessToken\": \"{{bearerToken}}\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrfToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/refresh",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "refresh"
+                  ]
+                },
+                "description": "Refresh access token using cookie (no auth)"
+              },
+              "status": "Error",
+              "code": 401,
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Set bearerToken', function () {",
+                  "  var jsonData = pm.response.json();",
+                  "  if (jsonData.accessToken) {",
+                  "    pm.environment.set('bearerToken', jsonData.accessToken);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Logout current user (requires auth)"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logout current user (requires auth)"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"ok\": true\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            {
+              "name": "Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                },
+                "description": "Logout current user (requires auth)"
+              },
+              "status": "Error",
+              "code": 401,
+              "body": "{\n  \"error\": \"Unauthorized\"\n}",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Clear bearerToken', function () {",
+                  "  pm.environment.unset('bearerToken');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
