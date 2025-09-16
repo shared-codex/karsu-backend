@@ -1,0 +1,29 @@
+Worker
+├─ assignments (1 → N) → WorkerDeviceAssignment
+│  ├─ worker (N → 1, fk=worker_id, onDelete=CASCADE)
+│  └─ device (N → 1, fk=device_id, onDelete=CASCADE) → Device
+│     ├─ assignments (1 → N) → WorkerDeviceAssignment
+│     └─ sensorReadings (1 → N) → SensorReading
+│        └─ device (N → 1, fk=device_id, onDelete=CASCADE)
+├─ shifts (1 → N) → ShiftAttendance
+│  └─ worker (N → 1, fk=worker_id, onDelete=CASCADE)
+├─ healthConditions (1 → N) → WorkerHealthCondition
+│  └─ worker (N → 1, fk=worker_id, onDelete=CASCADE)
+├─ healthIncidents (1 → N) → WorkerHealthIncident
+│  └─ worker (N → 1, fk=worker_id, onDelete=CASCADE)
+└─ alerts (1 → N) → Alert
+   └─ worker (N → 1, fk=worker_id, onDelete=CASCADE)
+
+Device
+├─ assignments (1 → N) → WorkerDeviceAssignment
+│  ├─ device (N → 1, fk=device_id, onDelete=CASCADE)
+│  └─ worker (N → 1, fk=worker_id, onDelete=CASCADE) → Worker
+└─ sensorReadings (1 → N) → SensorReading
+   └─ device (N → 1, fk=device_id, onDelete=CASCADE)
+
+User / Auth
+User
+├─ role (N → 1, fk=role_id, onDelete=SET NULL) → Role
+│  └─ permissions (M ↔ M via role_permissions) ↔ Permission
+└─ refreshTokens (1 → N) ← RefreshToken
+   └─ user (N → 1, fk=user_id, onDelete=CASCADE)

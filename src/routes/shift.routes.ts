@@ -4,7 +4,7 @@ import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
 /**
  * @openapi
