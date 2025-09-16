@@ -93,6 +93,22 @@
 - `npm run migration:generate --name=MigrationName` : ایجاد فایل مهاجرت جدید
 - `npm run migration:run` : اعمال مهاجرت‌ها روی پایگاه داده
 
+## آزمایش API با Postman
+پوشه‌ی `docs/api` شامل یک کالکشن Postman و فایل‌های محیطی برای کار با سرویس است.
+
+### وارد کردن کالکشن و محیط
+1. در Postman روی **Import** کلیک کرده و فایل `docs/api/postman_collection.json` را انتخاب کنید.
+2. یکی از فایل‌های محیط زیر را وارد کنید:
+   - `docs/api/postman_env.dev.json` برای توسعهٔ محلی
+   - `docs/api/postman_env.staging.json` برای محیط staging
+   - `docs/api/postman_env.prod.json` برای محیط production
+
+### تنظیم `baseUrl`
+پس از وارد کردن محیط، آن را در Postman باز کرده و متغیر `baseUrl` را به آدرس پایه‌ی سرور خود (مثلاً `http://localhost:3000`) مقداردهی کنید.
+
+### دریافت `bearerToken`
+در کالکشن پوشه‌ای به نام **Auth Helpers** وجود دارد. درخواست `POST /auth/login` را در این پوشه با اطلاعات کاربری معتبر اجرا کنید. اسکریپت تست این درخواست، توکن دسترسی را در متغیر محیطی `bearerToken` ذخیره کرده و درخواست‌های بعدی به صورت خودکار آن را در هدر `Authorization` ارسال می‌کنند.
+
 ## احراز هویت و مدیریت توکن
 
 ### روند دسترسی و تازه‌سازی
