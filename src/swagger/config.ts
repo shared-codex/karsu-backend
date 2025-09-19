@@ -12,6 +12,9 @@ import WorkerHealthConditionSchema, {
 } from "./schemas/WorkerHealthCondition";
 import WorkerHealthIncidentSchema from "./schemas/WorkerHealthIncident";
 import SensorReadingSchema from "./schemas/SensorReading";
+import SensorReadingAltSchema, {
+  SensorReadingAltCreateSchema,
+} from "./schemas/SensorReadingAlt";
 import AlertExample from "./examples/Alert.json";
 import AlertsExample from "./examples/Alerts.json";
 import AssignmentExample from "./examples/Assignment.json";
@@ -32,6 +35,9 @@ import PermissionExample from "./examples/Permission.json";
 import PermissionsExample from "./examples/Permissions.json";
 import SensorReadingExample from "./examples/SensorReading.json";
 import SensorReadingsExample from "./examples/SensorReadings.json";
+import SensorReadingAltExample from "./examples/SensorReadingAlt.json";
+import SensorReadingAltsExample from "./examples/SensorReadingAlts.json";
+import SensorReadingAltCreateExample from "./examples/SensorReadingAltCreate.json";
 
 const swaggerConfig: Options = {
   definition: {
@@ -61,6 +67,8 @@ const swaggerConfig: Options = {
         ConditionStatus: ConditionStatusSchema,
         WorkerHealthIncident: WorkerHealthIncidentSchema,
         SensorReading: SensorReadingSchema,
+        SensorReadingAlt: SensorReadingAltSchema,
+        SensorReadingAltCreate: SensorReadingAltCreateSchema,
       },
       examples: {
         Alert: AlertExample,
@@ -83,6 +91,9 @@ const swaggerConfig: Options = {
         ShiftAttendances: ShiftAttendancesExample,
         SensorReading: SensorReadingExample,
         SensorReadings: SensorReadingsExample,
+        SensorReadingAlt: SensorReadingAltExample,
+        SensorReadingAlts: SensorReadingAltsExample,
+        SensorReadingAltCreate: SensorReadingAltCreateExample,
       },
     },
   },

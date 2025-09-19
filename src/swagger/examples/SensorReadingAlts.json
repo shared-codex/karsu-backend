@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "timestamp": "2024-01-01T12:00:00.000Z",
+      "moisture": 45.25
+    },
+    {
+      "timestamp": "2024-01-01T12:05:00.000Z",
+      "moisture": 44.75
+    }
+  ],
+  "meta": {
+    "totalItems": 2,
+    "totalPages": 1,
+    "page": 1,
+    "limit": 10
+  }
+}
