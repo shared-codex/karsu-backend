@@ -36,7 +36,7 @@ import PermissionsExample from "./examples/Permissions.json";
 import SensorReadingExample from "./examples/SensorReading.json";
 import SensorReadingsExample from "./examples/SensorReadings.json";
 import SensorReadingAltExample from "./examples/SensorReadingAlt.json";
-import SensorReadingAltsExample from "./examples/SensorReadingAlts.json";
+import SensorReadingsAltExample from "./examples/SensorReadingsAlt.json";
 import SensorReadingAltCreateExample from "./examples/SensorReadingAltCreate.json";
 
 const swaggerConfig: Options = {
@@ -92,7 +92,7 @@ const swaggerConfig: Options = {
         SensorReading: SensorReadingExample,
         SensorReadings: SensorReadingsExample,
         SensorReadingAlt: SensorReadingAltExample,
-        SensorReadingAlts: SensorReadingAltsExample,
+        SensorReadingsAlt: SensorReadingsAltExample,
         SensorReadingAltCreate: SensorReadingAltCreateExample,
       },
     },
