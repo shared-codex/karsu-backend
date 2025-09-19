@@ -91,6 +91,13 @@ CREATE TABLE IF NOT EXISTS sensor_readings (
     ON DELETE CASCADE
 );
 
+-- Alternate sensor readings (timestamp primary key)
+CREATE TABLE IF NOT EXISTS sensor_readings_alt (
+  "timestamp" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  moisture     NUMERIC(5,2) NOT NULL,
+  PRIMARY KEY ("timestamp")
+);
+
 -- Shift attendance
 CREATE TABLE IF NOT EXISTS shift_attendance (
   attendance_id  SERIAL PRIMARY KEY,
