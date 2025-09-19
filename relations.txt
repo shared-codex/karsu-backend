@@ -27,3 +27,6 @@ User
 │  └─ permissions (M ↔ M via role_permissions) ↔ Permission
 └─ refreshTokens (1 → N) ← RefreshToken
    └─ user (N → 1, fk=user_id, onDelete=CASCADE)
+
+SensorReadingAlt
+└─ standalone entity (no relations defined)
