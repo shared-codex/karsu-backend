@@ -58,8 +58,8 @@ const router = Router();
  *                     limit:
  *                       type: integer
  *             examples:
- *               SensorReadingAlts:
- *                 $ref: '#/components/examples/SensorReadingAlts'
+ *               SensorReadingsAlt:
+ *                 $ref: '#/components/examples/SensorReadingsAlt'
  *       400:
  *         description: Invalid pagination parameters
  *         content:
