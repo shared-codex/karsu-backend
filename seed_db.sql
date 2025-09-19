@@ -213,6 +213,14 @@ FROM chosen_devices d
 CROSS JOIN t
 ON CONFLICT DO NOTHING;
 
+-- Sample alternate readings for integration tests
+INSERT INTO sensor_readings_alt("timestamp", moisture)
+VALUES
+  (now() - interval '5 minutes', 42.50),
+  (now() - interval '3 minutes', 47.25),
+  (now() - interval '1 minute', 44.75)
+ON CONFLICT ("timestamp") DO NOTHING;
+
 -- ~4k shifts: 200 workers × last 30 weekdays
 WITH w AS (
   SELECT worker_id FROM workers ORDER BY random() LIMIT 200

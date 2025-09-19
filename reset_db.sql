@@ -16,6 +16,7 @@ BEGIN
       worker_health_conditions,
       shift_attendance,
       sensor_readings,
+      sensor_readings_alt,
       worker_device_assignments,
       devices,
       workers,
