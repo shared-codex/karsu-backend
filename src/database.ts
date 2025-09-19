@@ -11,6 +11,7 @@ import { Alert } from "./entities/Alert";
 import { Permission } from "./entities/Permission";
 import { User } from "./entities/User";
 import { RefreshToken } from "./entities/RefreshToken";
+import { SensorReadingAlt } from "./entities/SensorReadingAlt";
 import { config } from "./config";
 
 export const AppDataSource = new DataSource({
@@ -28,6 +29,7 @@ export const AppDataSource = new DataSource({
     WorkerDeviceAssignment,
     ShiftAttendance,
     SensorReading,
+    SensorReadingAlt,
     WorkerHealthCondition,
     WorkerHealthIncident,
     Role,
